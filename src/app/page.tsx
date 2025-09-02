@@ -14,6 +14,7 @@ import { ReviewsSection } from "@/widgets/ReviewsSection/ReviewsSection";
 import { VideoGallery } from "@/widgets/VideoGallery/VideoGallery";
 import { Preloader } from "@/widgets/Preloader/Preloader";
 import { ApartmentsSwiper } from "@/widgets/ApartmentsSwiper/ApartmentsSwiper";
+import { FAQ } from "@/widgets/FAQ/FAQ";
 
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
@@ -56,6 +57,7 @@ export default function HomePage() {
       <BenefitsSection />
       <ApartmentsSwiper />
       <VideoGallery />
+      <FAQ />
       <ReviewsSection />
     </BaseLayout>
   );
