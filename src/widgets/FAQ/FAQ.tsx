@@ -30,32 +30,34 @@ export const FAQ = () => {
     };
 
     return (
-        <div className={styles.wrapper}>
-            <h2 className={styles.heading}>Часто задаваемые вопросы</h2>
+        <section className={styles.section}>
+            <div className={styles.wrapper}>
+                <h2 className={styles.heading}>Часто задаваемые вопросы</h2>
 
-            <div className={styles.accordion}>
-                {faqData.map((item, index) => (
-                    <div key={index} className={styles.item}>
-                        <button
-                            className={styles.question}
-                            onClick={() => toggle(index)}
-                        >
-                            <span>{item.question}</span>
-                            <ChevronDown
-                                className={`${styles.icon} ${openIndex === index ? styles.open : ""
+                <div className={styles.accordion}>
+                    {faqData.map((item, index) => (
+                        <div key={index} className={styles.item}>
+                            <button
+                                className={styles.question}
+                                onClick={() => toggle(index)}
+                            >
+                                <span>{item.question}</span>
+                                <ChevronDown
+                                    className={`${styles.icon} ${openIndex === index ? styles.open : ""
+                                        }`}
+                                />
+                            </button>
+
+                            <div
+                                className={`${styles.answer} ${openIndex === index ? styles.show : ""
                                     }`}
-                            />
-                        </button>
-
-                        <div
-                            className={`${styles.answer} ${openIndex === index ? styles.show : ""
-                                }`}
-                        >
-                            <p>{item.answer}</p>
+                            >
+                                <p>{item.answer}</p>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
+        </section>
     );
 };
