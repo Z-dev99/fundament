@@ -1,0 +1,123 @@
+.section {
+    position: relative;
+    width: 100%;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9fafb;
+    overflow: hidden;
+}
+
+.container {
+    z-index: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+
+    @media (min-width: 768px) {
+        grid-template-columns: 1fr 350px;
+        gap: 3rem;
+    }
+
+    @media (min-width: 1024px) {
+        grid-template-columns: 1fr 400px;
+        gap: 4rem;
+    }
+
+    @media (min-width: 1440px) {
+        grid-template-columns: 1fr 500px;
+        gap: 5rem;
+    }
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+
+    @media (min-width: 1024px) {
+        text-align: left;
+    }
+}
+
+.right {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+}
+
+.gridBg {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(to right, #e5e7eb31 1px, transparent 1px),
+        linear-gradient(to bottom, #e5e7eb51 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: drawGrid 1.5s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes drawGrid {
+    0% {
+        background-size: 0 50px, 50px 0;
+        opacity: 0;
+    }
+
+    50% {
+        background-size: 50px 0, 0 50px;
+        opacity: 0.5;
+    }
+
+    100% {
+        background-size: 50px 50px;
+        opacity: 1;
+    }
+}
+
+.title {
+    font-size: clamp(1.2rem, 6vw, 2rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: #111827;
+    line-height: 1.2;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #4b5563;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+
+    @media (min-width: 768px) {
+        font-size: 1.2rem;
+    }
+}
+
+.btn {
+    display: inline-block;
+    background: var(--primary-color, #3b82f6);
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.6rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #fff;
+    transition: background 0.3s ease, transform 0.2s ease;
+
+    &:hover {
+        background: #2563eb;
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}

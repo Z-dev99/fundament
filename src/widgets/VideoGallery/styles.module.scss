@@ -1,0 +1,127 @@
+.section {
+    width: 100%;
+    padding: 4rem 1.5rem;
+    background: #f9fafb;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto 2.5rem auto;
+
+    h2 {
+        font-size: clamp(1.5rem, 2vw, 2.5rem);
+        font-weight: 700;
+        color: #111827;
+    }
+
+    .btn {
+        background: var(--primary-color);
+        color: #fff;
+        font-size: 0.9rem;
+        padding: 0.6rem 1.2rem;
+        border-radius: 0.6rem;
+        transition: background 0.3s ease;
+
+        &:hover {
+            background: #2563eb;
+        }
+    }
+}
+
+.swiper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+
+    h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 1rem;
+        text-align: center;
+    }
+}
+
+.videoWrapper {
+    position: relative;
+    width: 100%;
+    border-radius: 0.8rem;
+    overflow: hidden;
+    background: #000;
+
+    .video {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+}
+
+.preview {
+    position: relative;
+    width: 100%;
+    border-radius: 0.8rem;
+    overflow: hidden;
+    cursor: pointer;
+
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: inherit;
+    }
+
+    .playBtn {
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s ease;
+
+        &:hover {
+            background: var(--primary-color);
+        }
+    }
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.modalContent {
+    width: 90%;
+    max-width: 900px;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.modalVideo {
+    width: 100%;
+    height: auto;
+    display: block;
+}

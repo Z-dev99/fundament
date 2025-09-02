@@ -1,0 +1,29 @@
+.title {
+  font-size: clamp(1.5rem, 4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #111827;
+}
+
+.subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #374151;
+  max-width: 100%;
+  cursor: pointer;
+
+  @media (max-width: 1024px) {
+    justify-content: center;
+  }
+
+  .arrow {
+    margin: 0 0.5rem;
+    color: #9ca3af;
+    flex-shrink: 0;
+  }
+}

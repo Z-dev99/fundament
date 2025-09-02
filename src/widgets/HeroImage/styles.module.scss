@@ -1,0 +1,24 @@
+.imageWrapper {
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  transition: transform 0.3s ease;
+
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+  }
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+  }
+}
