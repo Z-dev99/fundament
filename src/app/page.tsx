@@ -15,6 +15,8 @@ import { VideoGallery } from "@/widgets/VideoGallery/VideoGallery";
 import { Preloader } from "@/widgets/Preloader/Preloader";
 import { ApartmentsSwiper } from "@/widgets/ApartmentsSwiper/ApartmentsSwiper";
 import { FAQ } from "@/widgets/FAQ/FAQ";
+import { NewsSection } from "@/widgets/NewsSection/NewsSection";
+import { ContactsSection } from "@/widgets/ContactsSection/ContactsSection";
 
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
@@ -56,9 +58,11 @@ export default function HomePage() {
       </section>
       <BenefitsSection />
       <ApartmentsSwiper />
+      <NewsSection />
       <VideoGallery />
       <FAQ />
       <ReviewsSection />
+      <ContactsSection />
     </BaseLayout>
   );
 }
