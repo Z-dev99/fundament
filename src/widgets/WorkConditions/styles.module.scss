@@ -1,0 +1,103 @@
+.section {
+  padding: 100px 20px;
+  background: linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%);
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.heading {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 4rem;
+  color: #111827;
+}
+
+/* Вертикальная линия по центру */
+.stepper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(
+      180deg,
+      var(--primary-color) 0%,
+      #9333ea 100%
+    );
+    border-radius: 2px;
+    transform: translateX(-50%);
+    opacity: 0.25;
+  }
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  width: 100%;
+
+  &:nth-child(even) {
+    justify-content: flex-end;
+  }
+}
+
+/* Кружок с номером по центру */
+.circle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), #9333ea);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+/* Карточки */
+.content {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.5rem 2rem;
+  width: 45%;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.08);
+  }
+
+  h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    color: #111827;
+  }
+
+  p {
+    font-size: 1rem;
+    color: #4b5563;
+    line-height: 1.55;
+    margin: 0;
+  }
+}

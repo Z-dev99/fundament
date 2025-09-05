@@ -18,6 +18,7 @@ import { FAQ } from "@/widgets/FAQ/FAQ";
 import { NewsSection } from "@/widgets/NewsSection/NewsSection";
 import { ContactsSection } from "@/widgets/ContactsSection/ContactsSection";
 import { TariffsSection } from "@/widgets/TariffsSection/TariffsSection";
+import { WorkConditions } from "@/widgets/WorkConditions/WorkConditions";
 
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
@@ -63,6 +64,7 @@ export default function HomePage() {
 
       <NewsSection />
       <VideoGallery />
+      <WorkConditions />
       <FAQ />
       <ReviewsSection />
       <ContactsSection />
