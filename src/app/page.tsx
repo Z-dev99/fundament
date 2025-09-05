@@ -17,6 +17,7 @@ import { ApartmentsSwiper } from "@/widgets/ApartmentsSwiper/ApartmentsSwiper";
 import { FAQ } from "@/widgets/FAQ/FAQ";
 import { NewsSection } from "@/widgets/NewsSection/NewsSection";
 import { ContactsSection } from "@/widgets/ContactsSection/ContactsSection";
+import { TariffsSection } from "@/widgets/TariffsSection/TariffsSection";
 
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
@@ -57,7 +58,9 @@ export default function HomePage() {
         <div className={styles.gridBg} />
       </section>
       <BenefitsSection />
+      <TariffsSection />
       <ApartmentsSwiper />
+
       <NewsSection />
       <VideoGallery />
       <FAQ />
