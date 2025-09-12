@@ -24,7 +24,7 @@ export function HeroImage() {
                 alt="Здание"
                 width={480}
                 height={240}
-                className="object-cover w-full h-auto"
+                style={{ width: "480px", height: "auto" }}
                 priority
             />
         </motion.div>

@@ -13,7 +13,6 @@ import { useRouter } from "next/navigation";
 const menuItems = [
     { href: "/catalog", label: "Продажа" },
     { href: "/catalog", label: "Аренда" },
-    { href: "/", label: "Условия" },
     { href: "/contacts", label: "Контакты" },
 ];
 
@@ -66,7 +65,9 @@ const Header: FC = () => {
                                     width={160}
                                     height={36}
                                     priority
+                                    style={{ width: "160px", height: "auto" }}
                                 />
+
                             </NavLink>
                         </motion.div>
 

@@ -2,7 +2,7 @@
 
 import BaseLayout from "@/layouts/base-layout";
 import styles from "./styles.module.scss";
-import { Phone, MessageCircle, Users, Zap } from "lucide-react";
+import { MessageCircle, Users, Zap } from "lucide-react";
 import { motion, Variants } from "framer-motion";
 
 const contacts = [
@@ -32,18 +32,17 @@ const contacts = [
 const addresses = [
     {
         id: 1,
-        title: "Филиал Москва",
-        address: "г. Москва, ул. Примерная, д. 10",
-        image: "/images/office1.jpg",
+        title: "Филиал Ташкент",
+        address: "г. Ташкент, ул. Мукими, д. 100",
+        mapUrl:
+            "https://yandex.uz/map-widget/v1/?ll=69.233924%2C41.285915&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgoxNTIyNTA5OTc3Ei5Pyrt6YmVraXN0b24sIFRvc2hrZW50LCBNdXFpbWl5IGtvyrtjaGFzaSwgMTAwIgoNIneKQhVnJSVC&z=17.2",
     },
 ];
 
 const containerVariants: Variants = {
     hidden: {},
     visible: {
-        transition: {
-            staggerChildren: 0.2,
-        },
+        transition: { staggerChildren: 0.2 },
     },
 };
 
@@ -62,17 +61,11 @@ export default function ContactsPage() {
                 variants={containerVariants}
             >
                 <div className={styles.container}>
-                    <motion.h1
-                        className={styles.title}
-                        variants={fadeUp}
-                    >
+                    <motion.h1 className={styles.title} variants={fadeUp}>
                         Контактная информация
                     </motion.h1>
 
-                    <motion.p
-                        className={styles.subtitle}
-                        variants={fadeUp}
-                    >
+                    <motion.p className={styles.subtitle} variants={fadeUp}>
                         Вы можете связаться с нами, если у вас есть вопросы или предложения :)
                     </motion.p>
 
@@ -82,7 +75,6 @@ export default function ContactsPage() {
                                 key={item.id}
                                 className={styles.card}
                                 variants={fadeUp}
-                                whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
                             >
                                 <div className={styles.icon}>{item.icon}</div>
                                 <h3>{item.title}</h3>
@@ -104,9 +96,19 @@ export default function ContactsPage() {
                                     key={a.id}
                                     className={styles.addressCard}
                                     variants={fadeUp}
-                                    whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
                                 >
-                                    <img src={a.image} alt={a.title} />
+                                    {a.mapUrl && (
+                                        <div style={{ width: "100%", height: "250px", position: "relative" }}>
+                                            <iframe
+                                                src={a.mapUrl}
+                                                width="100%"
+                                                height="100%"
+                                                style={{ border: 0, position: "absolute", top: 0, left: 0 }}
+                                                allowFullScreen
+                                                loading="lazy"
+                                            />
+                                        </div>
+                                    )}
                                     <div>
                                         <h3>{a.title}</h3>
                                         <p>{a.address}</p>

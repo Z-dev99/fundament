@@ -17,8 +17,6 @@ import styles from "./styles.module.scss";
 
 export const ContactsSection = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    // состояние формы
     const [fio, setFio] = useState("");
     const [phone, setPhone] = useState("");
     const [message, setMessage] = useState("");
@@ -43,7 +41,6 @@ export const ContactsSection = () => {
     return (
         <section className={styles.section}>
             <div className={styles.wrapper}>
-                {/* Левая часть */}
                 <motion.div
                     className={styles.card}
                     initial={{ opacity: 0, y: 30 }}
@@ -115,8 +112,6 @@ export const ContactsSection = () => {
                         Написать нам
                     </button>
                 </motion.div>
-
-                {/* Правая часть */}
                 <motion.div
                     className={styles.map}
                     initial={{ opacity: 0, y: 30 }}
@@ -124,16 +119,60 @@ export const ContactsSection = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.2 }}
                 >
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2996.276678402243!2d69.2797373154256!3d41.311158779270584!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8adf7f4a56b5%3A0x1234567890abcdef!2sAmir%20Temur%20Street!5e0!3m2!1sru!2suz!4v1699999999999!5m2!1sru!2suz"
-                        allowFullScreen
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                    ></iframe>
+                    <div
+                        style={{
+                            position: "relative",
+                            overflow: "hidden",
+                            width: "100%",
+                            height: "100%", 
+                        }}
+                    >
+                        <a
+                            href="https://yandex.uz/maps/10335/tashkent/?utm_medium=mapframe&utm_source=maps"
+                            style={{
+                                color: "#eee",
+                                fontSize: "12px",
+                                position: "absolute",
+                                top: 0,
+                            }}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Ташкент
+                        </a>
+
+                        <a
+                            href="https://yandex.uz/maps/10335/tashkent/house/YkAYdARiT00EQFprfX55d3lhYQ==/?ll=69.233924%2C41.285915&utm_medium=mapframe&utm_source=maps&z=17.2"
+                            style={{
+                                color: "#eee",
+                                fontSize: "12px",
+                                position: "absolute",
+                                top: 14,
+                            }}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Улица Мукими, 100 — Яндекс Карты
+                        </a>
+
+                        <iframe
+                            src="https://yandex.uz/map-widget/v1/?ll=69.233924%2C41.285915&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgoxNTIyNTA5OTc3Ei5Pyrt6YmVraXN0b24sIFRvc2hrZW50LCBNdXFpbWl5IGtvyrtjaGFzaSwgMTAwIgoNIneKQhVnJSVC&z=17.2"
+                            width="100%"
+                            height="100%"
+                            style={{
+                                border: 0,
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                            }}
+                            allowFullScreen
+                            loading="lazy"
+                        />
+                    </div>
+
                 </motion.div>
             </div>
 
-            {/* Модалка */}
             <AnimatePresence>
                 {isModalOpen && (
                     <motion.div

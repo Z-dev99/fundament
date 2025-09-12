@@ -4,6 +4,30 @@
     padding: 2rem 1.5rem;
 }
 
+.payments {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 0.8rem;
+    align-items: center;
+
+    .paymentLogo {
+        width: 70px !important;
+        height: 40px !important;
+        object-fit: contain;
+        background: #fff;
+        padding: 4px 6px;
+        border-radius: 8px;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+
+        &:hover {
+            transform: translateY(-2px);
+        }
+    }
+}
+
+
 .container {
     max-width: 1200px;
     margin: 0 auto;

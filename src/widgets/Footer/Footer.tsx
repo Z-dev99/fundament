@@ -1,36 +1,47 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { FaTelegram, FaWhatsapp, FaVk, FaInstagram } from "react-icons/fa";
 
 import styles from "./styles.module.scss";
 import NavLink from "../NavLink/NavLink";
-import Image from "next/image";
+
+const socialLinks = [
+    { href: "https://t.me/", label: "Telegram", icon: <FaTelegram color="#0088cc" /> },
+    { href: "https://wa.me/", label: "WhatsApp", icon: <FaWhatsapp color="#25D366" /> },
+    { href: "https://vk.com/", label: "ВКонтакте", icon: <FaVk color="#4c75a3" /> },
+    { href: "https://instagram.com/", label: "Instagram", icon: <FaInstagram color="#E4405F" /> },
+];
+
+const paymentLogos = [
+    { src: "/icons/humo.png", alt: "HUMO" },
+    { src: "/icons/uzcard.png", alt: "Uzcard" },
+];
 
 export const Footer = () => {
     return (
         <footer className={styles.footer}>
             <div className={styles.container}>
                 <div className={styles.left}>
-                    <div className={styles.logo}>
-                        <NavLink href="/">
-                            <Image
-                                src="/images/logo.svg"
-                                alt="Логотип"
-                                width={160}
-                                height={36}
-                                priority
-                            />
-                        </NavLink>
-                    </div>
+                    <NavLink href="/" className={styles.logo}>
+                        <Image
+                            src="/images/logo.svg"
+                            alt="Логотип"
+                            width={160}
+                            height={36}
+                            priority
+                            style={{ height: "auto", width: "160px" }}
+                        />
+                    </NavLink>
+
                     <p className={styles.text}>
-                        Платформа прямого размещения.<br />
-                        От владельцев.<br />
-                        Без посредников.
+                        Платформа прямого размещения.
+                        <br /> От владельцев.
+                        <br /> Без посредников.
                     </p>
-                    <p className={styles.copy}>
-                        © 2025 Fundament. Все права защищены.
-                    </p>
+
+                    <p className={styles.copy}>© 2025 Fundament. Все права защищены.</p>
                 </div>
 
                 <div className={styles.right}>
@@ -38,25 +49,42 @@ export const Footer = () => {
                         <h4>Основные</h4>
                         <Link href="/">Главная</Link>
                         <Link href="/catalog">Аренда</Link>
-                        <Link href="/catalog">Условия</Link>
                         <Link href="/contacts">Контакты</Link>
                     </div>
 
                     <div className={styles.column}>
                         <h4>Социальные сети</h4>
-                        <a href="https://t.me/" target="_blank">
-                            <FaTelegram color="#0088cc" /> Telegram
-                        </a>
-                        <a href="https://wa.me/" target="_blank">
-                            <FaWhatsapp color="#25D366" /> WhatsApp
-                        </a>
-                        <a href="https://vk.com/" target="_blank">
-                            <FaVk color="#4c75a3" /> ВКонтакте
-                        </a>
-                        <a href="https://instagram.com/" target="_blank">
-                            <FaInstagram color="#E4405F" /> Instagram
-                        </a>
+                        {socialLinks.map(({ href, label, icon }) => (
+                            <a
+                                key={label}
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {icon} {label}
+                            </a>
+                        ))}
                     </div>
+
+                    <div className={styles.column}>
+                        <h4>Мы принимаем</h4>
+                        <div className={styles.payments}>
+                            {paymentLogos.map(({ src, alt }) => (
+                                <Image
+                                    key={alt}
+                                    src={src}
+                                    alt={alt}
+                                    width={70}
+                                    height={40}
+                                    className={styles.paymentLogo}
+                                    priority={false}
+                                    style={{ height: "auto", width: "70px" }}
+
+                                />
+                            ))}
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </footer>
