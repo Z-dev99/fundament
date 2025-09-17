@@ -23,7 +23,6 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
     const phoneHref = rawPhone.replace(/[^\d+]/g, "");
     const displayedPhone = rawPhone;
 
-    // обработчики
     const handleCall = (e?: React.MouseEvent) => {
         e?.stopPropagation();
         window.location.href = `tel:${phoneHref}`;
@@ -33,7 +32,6 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
         e?.stopPropagation();
         window.location.href = `sms:${phoneHref}`;
     };
-
     const handleCopy = async (e?: React.MouseEvent) => {
         e?.stopPropagation();
         try {
@@ -45,15 +43,24 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
             setTimeout(() => setCopied(false), 1800);
         }
     };
-
     const goToDetails = () => {
         router.push(`/catalog/${property.id}`);
     };
-
     return (
         <>
             <div className={styles.card}>
                 <div className={styles.imageWrapper}>
+                    <button
+                        className={styles.favoriteBtn}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            alert("Добавлено в избранное");
+                        }}
+                        aria-label="Добавить в избранное"
+                    >
+                        ❤
+                    </button>
+
                     <Swiper
                         modules={[Pagination]}
                         pagination={{ clickable: true }}
@@ -86,6 +93,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
                         )}
                     </Swiper>
                 </div>
+
 
                 <div className={styles.content}>
                     <div className={styles.title}>{property.title}</div>

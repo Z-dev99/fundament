@@ -102,7 +102,7 @@ export const CatalogSection: React.FC = () => {
                                 ))}
                             </div>
                         ) : (
-                            <PropertyList properties={currentItems} />
+                            <PropertyList properties={currentItems} total={500} />
                         )}
                     </div>
                     {!loading && (

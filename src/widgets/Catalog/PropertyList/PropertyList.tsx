@@ -31,13 +31,14 @@ export interface Property {
 
 interface Props {
     properties: Property[];
+    total: number;
 }
 
-export const PropertyList: React.FC<Props> = ({ properties }) => {
+export const PropertyList: React.FC<Props> = ({ properties, total }) => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
-                Найдено: <span>{properties.length}</span> объявлений
+                Найдено: <span>{total}</span> объявлений
             </div>
             <div className={styles.list}>
                 {properties.map((property) => (
