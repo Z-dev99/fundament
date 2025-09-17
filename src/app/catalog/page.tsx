@@ -1,13 +1,16 @@
-export const metadata = {
-    title: 'Каталог объектов — fundament',
-    description: 'Каталог квартир, домов и коммерческой недвижимости от платформы fundament. выберите подходящий вариант покупки или аренды.',
-};
+"use client";
+import React from "react";
+import CatalogLayout from "@/layouts/catalog-layout";
+import CatalogHeader from "@/widgets/Catalog/SearchBar/SearchBar";
+import { CatalogSection } from "@/widgets/Catalog/CatalogSection/CatalogSection";
 
 export default function CatalogPage() {
-
     return (
-        <main style={{ padding: '2rem' }}>
-            <h1>каталог</h1>
-        </main>
+        <CatalogLayout>
+            <>
+                <CatalogHeader onSearch={() => { }} onFilterChange={() => { }} />
+                <CatalogSection />
+            </>
+        </CatalogLayout>
     );
 }

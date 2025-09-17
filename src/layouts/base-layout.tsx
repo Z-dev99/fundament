@@ -8,8 +8,13 @@ interface Props {
 
 export default function BaseLayout({ children }: Props) {
     return (
-        <>
-            {/* Бегущая строка */}
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                minHeight: "100vh",
+            }}
+        >
             <div
                 style={{
                     width: "100%",
@@ -33,11 +38,9 @@ export default function BaseLayout({ children }: Props) {
                     🚧 Сайт находится в разработке 🚧
                 </div>
             </div>
-
             <Header />
-            <main>{children}</main>
+            <main style={{ flex: 1 }}>{children}</main>
             <Footer />
-
             <style jsx>{`
         @keyframes marquee {
           0% {
@@ -48,6 +51,6 @@ export default function BaseLayout({ children }: Props) {
           }
         }
       `}</style>
-        </>
+        </div>
     );
 }

@@ -5,10 +5,12 @@ import styles from "./Header.module.scss";
 
 import Image from "next/image";
 import { easeOut, motion, Variants } from "framer-motion";
-import NavLink from "../NavLink/NavLink";
-import Button from "../Button/Button";
-import { Menu, Plus, X } from "react-feather";
+
+import { Menu, X } from "react-feather";
 import { useRouter } from "next/navigation";
+import NavLink from "@/widgets/NavLink/NavLink";
+import Button from "@/widgets/Button/Button";
+import { useAuth } from "@/shared/providers/AuthProvider";
 
 const menuItems = [
     { href: "/catalog", label: "Продажа" },
@@ -36,6 +38,7 @@ const itemVariants: Variants = {
 const Header: FC = () => {
     const router = useRouter();
     const [menuOpen, setMenuOpen] = useState(false);
+    const { isAuthenticated } = useAuth();
 
     return (
         <>
@@ -48,7 +51,6 @@ const Header: FC = () => {
                     onClick={() => setMenuOpen(false)}
                 />
             )}
-
             <motion.nav
                 className={styles.nav}
                 initial="hidden"
@@ -67,7 +69,6 @@ const Header: FC = () => {
                                     priority
                                     style={{ width: "160px", height: "auto" }}
                                 />
-
                             </NavLink>
                         </motion.div>
 
@@ -100,13 +101,23 @@ const Header: FC = () => {
                                 variants={itemVariants}
                                 onClick={() => setMenuOpen(false)}
                             >
-                                <Button
-                                    variant="outline"
-                                    tooltip="Войти"
-                                    onClick={() => router.push("/auth/login")}
-                                >
-                                    Войти
-                                </Button>
+                                {isAuthenticated ? (
+                                    <Button
+                                        variant="outline"
+                                        tooltip="Профиль"
+                                        onClick={() => router.push("/profile")}
+                                    >
+                                        Профиль
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        variant="outline"
+                                        tooltip="Войти"
+                                        onClick={() => router.push("/auth/login")}
+                                    >
+                                        Войти
+                                    </Button>
+                                )}
                             </motion.li>
                         </motion.ul>
                     </motion.div>
@@ -117,19 +128,23 @@ const Header: FC = () => {
                             variants={containerVariants}
                         >
                             <motion.div variants={itemVariants}>
-                                <Button variant="primary" tooltip="Создать объявление">
-                                    <Plus size={16} />
-                                    Создать объявление
-                                </Button>
-                            </motion.div>
-                            <motion.div variants={itemVariants}>
-                                <Button
-                                    variant="outline"
-                                    tooltip="Войти"
-                                    onClick={() => router.push("/auth/login")}
-                                >
-                                    Войти
-                                </Button>
+                                {isAuthenticated ? (
+                                    <Button
+                                        variant="outline"
+                                        tooltip="Профиль"
+                                        onClick={() => router.push("/profile")}
+                                    >
+                                        Профиль
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        variant="outline"
+                                        tooltip="Войти"
+                                        onClick={() => router.push("/auth/login")}
+                                    >
+                                        Войти
+                                    </Button>
+                                )}
                             </motion.div>
                         </motion.div>
                     </motion.div>

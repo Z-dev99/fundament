@@ -2,7 +2,7 @@
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import { Lock } from "lucide-react"; // иконка замка
+import { Lock } from "lucide-react";
 
 import styles from "./styles.module.scss";
 
@@ -67,7 +67,7 @@ const apartments = [
 ];
 export const ApartmentsSwiper = () => {
     return (
-        <div className={styles.wrapper}>
+        <section className={styles.wrapper}>
             <h2 className={styles.heading}>Лучшие предложения</h2>
 
             <Swiper
@@ -123,6 +123,6 @@ export const ApartmentsSwiper = () => {
                     </SwiperSlide>
                 ))}
             </Swiper>
-        </div>
+        </section>
     );
 };

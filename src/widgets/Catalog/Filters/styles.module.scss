@@ -1,0 +1,156 @@
+.filterBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: white;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 5px;
+}
+
+.label {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.range {
+    display: flex;
+    gap: 0.5rem;
+
+    @media (max-width: 640px) {
+        flex-direction: column;
+    }
+}
+
+.input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.option {
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background: white;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+        background: #f3f4f6;
+    }
+}
+
+.active {
+    background: #111827;
+    color: white;
+    border-color: #111827;
+}
+
+/* ========================= */
+/* 🎯 Кастомный Dropdown */
+/* ========================= */
+.dropdown {
+    position: relative;
+    width: 100%;
+}
+
+.dropdownControl {
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border 0.2s, box-shadow 0.2s;
+
+    &:hover {
+        border-color: #9ca3af;
+    }
+}
+
+.arrow {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-left: 0.5rem;
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: calc(100% + 0.25rem);
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    z-index: 20;
+    overflow: hidden;
+}
+
+.dropdownSearch {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: none;
+    border-bottom: 1px solid #e5e7eb;
+    outline: none;
+    font-size: 0.9rem;
+}
+
+.dropdownList {
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.dropdownItem {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+        background: #f3f4f6;
+    }
+}
+
+.dropdownItemActive {
+    background: #f3f4f6;
+    font-weight: 600;
+}
+
+.dropdownEmpty {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    color: #9ca3af;
+    text-align: center;
+}
+
+.inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .input {
+        padding-right: 2rem;
+    }
+
+    .suffix {
+        position: absolute;
+        right: 0.5rem;
+        color: #6b7280;
+        font-size: 0.9rem;
+    }
+}

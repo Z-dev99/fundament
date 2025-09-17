@@ -1,0 +1,29 @@
+export interface FiltersState {
+    announcement_type?: string;
+    property_type?: string;
+    order_by?: string;
+    currency?: string;
+    priceFrom?: number;
+    priceTo?: number;
+    min_rooms?: number;
+    max_rooms?: number;
+    min_area_total?: number;
+    max_area_total?: number;
+    min_area_living?: number;
+    max_area_living?: number;
+    min_area_kitchen?: number;
+    max_area_kitchen?: number;
+    min_floor?: number;
+    max_floor?: number;
+    min_floors_total?: number;
+    max_floors_total?: number;
+    min_year_built?: number;
+    max_year_built?: number;
+    country?: string;
+    region?: string;
+    city?: string;
+    district?: string;
+    street?: string;
+    wall_material?: string;
+    bathroom_layout?: string;
+}

@@ -129,7 +129,8 @@ export default function RegisterPage() {
                                     type="tel"
                                     value={phone}
                                     onChange={handlePhoneChange}
-                                    className={`${styles.input} ${success ? styles.success : ""}`}
+                                    className={`${styles.input} ${success ? styles.success : ""
+                                        }`}
                                     inputMode="numeric"
                                     maxLength={19}
                                 />
@@ -188,7 +189,7 @@ export default function RegisterPage() {
 
                             <button
                                 type="button"
-                                className={styles.close}
+                                className={styles.back}
                                 onClick={() => setStep("form")}
                             >
                                 ← Назад

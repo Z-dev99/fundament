@@ -1,0 +1,213 @@
+.card {
+    display: flex;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    margin-bottom: 28px;
+    border: 1px solid #f2f2f2;
+}
+
+/* Галерея */
+.imageWrapper {
+    position: relative;
+    flex-shrink: 0;
+    width: 260px;
+    aspect-ratio: 4 / 3;
+    /* фиксируем соотношение сторон */
+    border-right: 1px solid #f0f0f0;
+    background: #fafafa;
+}
+
+.swiper {
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+
+    .swiper-pagination-bullet {
+        background: rgba(255, 255, 255, 0.85);
+        opacity: 1;
+
+        &-active {
+            background: var(--primary-color);
+        }
+    }
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* фото не тянется */
+    border-radius: 14px;
+}
+
+/* Бейдж */
+.badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: linear-gradient(135deg, #43a047, #66bb6a);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+/* Контент */
+.content {
+    flex: 1;
+    padding: 22px 26px;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #1a1a1a;
+    line-height: 1.4;
+}
+
+.location {
+    font-size: 15px;
+    color: #555;
+    margin-bottom: 14px;
+}
+
+/* Детали */
+.meta {
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.priceBlock {
+    display: flex;
+    flex-direction: column;
+    margin: 14px 0;
+}
+
+.price {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--primary-color);
+    line-height: 1.4;
+}
+
+.pricePerM2 {
+    font-size: 14px;
+    color: #888;
+    font-weight: 500;
+}
+
+.date {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 14px;
+}
+
+.description {
+    font-size: 15px;
+    color: #444;
+    margin-bottom: 18px;
+    line-height: 1.6;
+}
+
+/* Футер */
+.footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid #f3f3f3;
+}
+
+.actions {
+    display: flex;
+    gap: 14px;
+}
+
+.phone,
+.message {
+    padding: 9px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    min-width: 120px;
+    text-align: center;
+}
+
+.phone {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.message {
+    background: #f4f4f4;
+    color: #333;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.header {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+
+    span {
+        color: var(--primary-color);
+        font-weight: 700;
+    }
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.imageContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.loader {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(250, 250, 250, 0.8);
+    font-size: 14px;
+    color: #555;
+    z-index: 5;
+}
+
+.loading {
+    opacity: 0.6;
+    filter: blur(4px);
+    transition: all 0.3s ease;
+}
+
+.loaded {
+    opacity: 1;
+    filter: none;
+    transition: all 0.3s ease;
+}

@@ -7,43 +7,41 @@ import { motion, AnimatePresence } from "framer-motion";
 import styles from "./styles.module.scss";
 
 export default function LoginPage() {
-    const [step, setStep] = useState<"phone" | "code">("phone");
-    const [phone, setPhone] = useState("+998 ");
+    const [step, setStep] = useState<"role" | "phone" | "code">("role");
+    const [role, setRole] = useState<"landlord" | "tenant" | null>(null);
+    const [digits, setDigits] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
     const [code, setCode] = useState(Array(4).fill(""));
 
     const router = useRouter();
 
-    const formatPhone = (value: string) => {
-        const digits = value.replace(/\D/g, "");
+    const formatPhone = (digits: string) => {
+        if (!digits) return "+998 ";
         let result = "+998";
-
-        if (digits.length > 3) {
-            const rest = digits.slice(3);
-            if (rest.length > 0) result += ` (${rest.slice(0, 2)}`;
-            if (rest.length >= 2) result += `) ${rest.slice(2, 5)}`;
-            if (rest.length >= 5) result += ` ${rest.slice(5, 7)}`;
-            if (rest.length >= 7) result += ` ${rest.slice(7, 9)}`;
-        }
+        if (digits.length > 0) result += ` (${digits.slice(0, 2)}`;
+        if (digits.length >= 2) result += `) ${digits.slice(2, 5)}`;
+        if (digits.length >= 5) result += ` ${digits.slice(5, 7)}`;
+        if (digits.length >= 7) result += ` ${digits.slice(7, 9)}`;
         return result;
     };
 
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPhone(formatPhone(e.target.value));
+        let val = e.target.value.replace(/\D/g, "");
+        if (val.startsWith("998")) {
+            val = val.slice(3);
+        }
+        setDigits(val.slice(0, 9));
         setError("");
         setSuccess(false);
     };
 
     const handlePhoneSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
-        const uzbPhoneRegex = /^\+998 \(\d{2}\) \d{3} \d{2} \d{2}$/;
-        if (!uzbPhoneRegex.test(phone)) {
+        if (digits.length !== 9) {
             setError("Введите номер в формате +998 (90) 123 45 67");
             return;
         }
-
         setError("");
         setSuccess(true);
 
@@ -57,8 +55,8 @@ export default function LoginPage() {
         if (/^\d?$/.test(value)) {
             const newCode = [...code];
             newCode[index] = value;
-            setCode(newCode)
-            if (value && index < 5) {
+            setCode(newCode);
+            if (value) {
                 const nextInput = document.querySelector<HTMLInputElement>(
                     `input[data-index="${index + 1}"]`
                 );
@@ -75,6 +73,7 @@ export default function LoginPage() {
             return;
         }
         setError("");
+        console.log("Выбранная роль:", role);
         console.log("Введён код:", enteredCode);
         router.replace("/");
     };
@@ -95,8 +94,43 @@ export default function LoginPage() {
                 </button>
 
                 <h1 className={styles.title}>Вход</h1>
-
                 <AnimatePresence mode="wait">
+                    {step === "role" && (
+                        <motion.div
+                            key="role-step"
+                            className={styles.form}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                        >
+                            <p className={styles.subtitle}>
+                                Выберите, кто вы:
+                            </p>
+                            <div className={styles.roleContainer}>
+                                <button
+                                    type="button"
+                                    className={styles.roleBtn}
+                                    onClick={() => {
+                                        setRole("landlord");
+                                        setStep("phone");
+                                    }}
+                                >
+                                    Я арендодатель
+                                </button>
+                                <button
+                                    type="button"
+                                    className={styles.roleBtn}
+                                    onClick={() => {
+                                        setRole("tenant");
+                                        setStep("phone");
+                                    }}
+                                >
+                                    Я арендатор
+                                </button>
+                            </div>
+                        </motion.div>
+                    )}
+
                     {step === "phone" && (
                         <motion.form
                             key="phone-step"
@@ -110,11 +144,11 @@ export default function LoginPage() {
                                 <label>Номер телефона</label>
                                 <input
                                     type="tel"
-                                    value={phone}
+                                    value={formatPhone(digits)}
                                     onChange={handlePhoneChange}
                                     className={`${styles.input} ${success ? styles.success : ""}`}
                                     inputMode="numeric"
-                                    maxLength={19}
+                                    placeholder="+998 (90) 123 45 67"
                                 />
                                 {error && <p className={styles.error}>{error}</p>}
                             </div>
@@ -122,13 +156,16 @@ export default function LoginPage() {
                             <button type="submit" className={styles.submit}>
                                 Далее
                             </button>
-
+                            <button
+                                type="button"
+                                className={styles.back}
+                                onClick={() => setStep("role")}
+                            >
+                                ← Назад
+                            </button>
                             <p className={styles.switch}>
                                 Нет аккаунта?{" "}
-                                <button
-                                    type="button"
-                                    onClick={() => router.replace("/auth/register")}
-                                >
+                                <button onClick={() => router.replace("/auth/register")}>
                                     Зарегистрироваться
                                 </button>
                             </p>

@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 import '@/styles/globals.css';
+import { Providers } from './providers';
+
 export const metadata = {
     title: 'fundament — Продажа и аренда квартир, домов и коммерческой недвижимости',
     description: 'fundament — надежный сервис для поиска и покупки, аренды квартир, домов, офисов и коммерческих помещений.',
@@ -27,7 +29,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="ru">
             <body>
-                {children}
+                <Providers>{children}</Providers>
             </body>
         </html>
     );
