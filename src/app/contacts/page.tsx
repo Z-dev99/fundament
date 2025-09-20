@@ -9,21 +9,21 @@ const contacts = [
     {
         id: 1,
         title: "Бесплатная консультация",
-        phone: "+7 (495) 123-45-67",
+        phone: "+998887556556",
         tg: "https://t.me/example",
         icon: <MessageCircle className={styles.iconYellow} />,
     },
     {
         id: 2,
         title: "Корпоративным клиентам",
-        phone: "+7 (495) 765-43-21",
+        phone: "+998887556556",
         tg: "https://t.me/example",
         icon: <Users className={styles.iconBlue} />,
     },
     {
         id: 3,
         title: "Предложения о сотрудничестве",
-        phone: "+7 (495) 111-22-33",
+        phone: "+998887556556",
         tg: "https://t.me/example",
         icon: <Zap className={styles.iconPurple} />,
     },
@@ -71,11 +71,7 @@ export default function ContactsPage() {
 
                     <motion.div className={styles.cards} variants={containerVariants}>
                         {contacts.map((item) => (
-                            <motion.div
-                                key={item.id}
-                                className={styles.card}
-                                variants={fadeUp}
-                            >
+                            <motion.div key={item.id} className={styles.card} variants={fadeUp}>
                                 <div className={styles.icon}>{item.icon}</div>
                                 <h3>{item.title}</h3>
                                 <p>
@@ -92,11 +88,7 @@ export default function ContactsPage() {
                         <motion.h2 variants={fadeUp}>Наши адреса</motion.h2>
                         <motion.div className={styles.addresses} variants={containerVariants}>
                             {addresses.map((a) => (
-                                <motion.div
-                                    key={a.id}
-                                    className={styles.addressCard}
-                                    variants={fadeUp}
-                                >
+                                <motion.div key={a.id} className={styles.addressCard} variants={fadeUp}>
                                     {a.mapUrl && (
                                         <div style={{ width: "100%", height: "250px", position: "relative" }}>
                                             <iframe

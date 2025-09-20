@@ -3,6 +3,9 @@ import React, { useState, useEffect } from "react";
 import { Filters } from "../Filters/Filters";
 import styles from "./styles.module.scss";
 import { Property, PropertyList } from "../PropertyList/PropertyList";
+import { NewsSection } from "@/widgets/MainPage/NewsSection/NewsSection";
+import { ReviewsSection } from "@/widgets/MainPage/ReviewsSection/ReviewsSection";
+import { ContactsSection } from "@/widgets/MainPage/ContactsSection/ContactsSection";
 
 const cities = [
     { city: "Ташкент", district: "Мирзо-Улугбекский" },
@@ -88,46 +91,51 @@ export const CatalogSection: React.FC = () => {
     }, [currentPage]);
 
     return (
-        <section className={styles.section}>
-            <div className={styles.container}>
-                <aside className={styles.sidebar}>
-                    <Filters />
-                </aside>
-                <main className={styles.content}>
-                    <div className={styles.listPlaceholder}>
-                        {loading ? (
-                            <div className={styles.skeletonList}>
-                                {Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
-                                    <div key={i} className={styles.skeletonCard} />
-                                ))}
+        <>
+            <section className={styles.section}>
+                <div className={styles.container}>
+                    <aside className={styles.sidebar}>
+                        <Filters />
+                    </aside>
+                    <div className={styles.content}>
+                        <div className={styles.listPlaceholder}>
+                            {loading ? (
+                                <div className={styles.skeletonList}>
+                                    {Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
+                                        <div key={i} className={styles.skeletonCard} />
+                                    ))}
+                                </div>
+                            ) : (
+                                <PropertyList properties={currentItems} total={500} />
+                            )}
+                        </div>
+                        {!loading && (
+                            <div className={styles.pagination}>
+                                <button
+                                    disabled={currentPage === 1}
+                                    onClick={() => setCurrentPage((p) => p - 1)}
+                                >
+                                    ◀ Назад
+                                </button>
+
+                                <span>
+                                    Страница {currentPage} из {totalPages}
+                                </span>
+
+                                <button
+                                    disabled={currentPage === totalPages}
+                                    onClick={() => setCurrentPage((p) => p + 1)}
+                                >
+                                    Вперёд ▶
+                                </button>
                             </div>
-                        ) : (
-                            <PropertyList properties={currentItems} total={500} />
                         )}
                     </div>
-                    {!loading && (
-                        <div className={styles.pagination}>
-                            <button
-                                disabled={currentPage === 1}
-                                onClick={() => setCurrentPage((p) => p - 1)}
-                            >
-                                ◀ Назад
-                            </button>
-
-                            <span>
-                                Страница {currentPage} из {totalPages}
-                            </span>
-
-                            <button
-                                disabled={currentPage === totalPages}
-                                onClick={() => setCurrentPage((p) => p + 1)}
-                            >
-                                Вперёд ▶
-                            </button>
-                        </div>
-                    )}
-                </main>
-            </div>
-        </section>
+                </div>
+            </section>
+            <NewsSection />
+            <ReviewsSection />
+            <ContactsSection />
+        </>
     );
 };

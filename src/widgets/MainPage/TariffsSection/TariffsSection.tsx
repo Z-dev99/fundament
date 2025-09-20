@@ -3,48 +3,41 @@
 import { motion } from "framer-motion";
 import { CheckCircle } from "lucide-react";
 import styles from "./styles.module.scss";
+import { useGetSubscriptionsQuery } from "@/shared/api/subscriptionApi";
 
 export const TariffsSection = () => {
-  const tariffs = [
-    {
-      id: 1,
-      title: "Базовый",
-      description: "Идеально для старта",
-      oldPrice: "6900 ₽",
-      price: "0 сум",
-      features: ["Преимущество №1", "Преимущество №2", "Преимущество №3"],
-      extra: "Подходит новичкам и небольшим проектам.",
-      popular: false,
-    },
-    {
-      id: 2,
-      title: "Продвинутый",
-      description: "Оптимальный выбор",
-      oldPrice: "0 сум",
-      price: "0 сум",
-      features: [
-        "Расширенные возможности",
-        "Приоритетная поддержка",
-        "Все функции базового тарифа",
-      ],
-      extra: "Лучший баланс цены и качества. Подходит для малого бизнеса.",
-      popular: true,
-    },
-    {
-      id: 3,
-      title: "Договорной",
-      description: "Индивидуальный тариф",
-      oldPrice: "0 сум",
-      price: "0 сум",
-      features: [
-        "Расширенные возможности",
-        "Приоритетная поддержка",
-        "Все функции базового тарифа",
-      ],
-      extra: "Лучший баланс цены и качества. Подходит для малого бизнеса.",
-      popular: true,
-    },
-  ];
+  const { data, isLoading, isError } = useGetSubscriptionsQuery({
+    type: "TENANT",
+  });
+  if (isLoading) {
+    return (
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <p className={styles.loading}>Загрузка тарифов...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (isError) {
+    return (
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <p className={styles.error}>Ошибка загрузки тарифов</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <p className={styles.empty}>Тарифы пока недоступны</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className={styles.section}>
@@ -60,41 +53,34 @@ export const TariffsSection = () => {
         </motion.h2>
 
         <div className={styles.cards}>
-          {tariffs.map((tariff) => (
+          {data.map((tariff, i) => (
             <motion.div
               key={tariff.id}
-              className={`${styles.card} ${tariff.popular ? styles.popular : ""}`}
+              className={`${styles.card}`}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
             >
-              {tariff.popular && <span className={styles.badge}>Популярный</span>}
-
               <div className={styles.icon}>🔥</div>
 
-              <h3>{tariff.title}</h3>
-              <p className={styles.desc}>{tariff.description}</p>
+              <h3>{tariff.description}</h3>
+              <p className={styles.desc}>Срок: {tariff.period} дней</p>
 
               <ul className={styles.features}>
-                {tariff.features.map((feature, idx) => (
-                  <li key={idx}>
-                    <CheckCircle size={18} />
-                    {feature}
-                  </li>
-                ))}
+                <li>
+                  <CheckCircle size={18} /> Продолжительность {tariff.period} дней
+                </li>
+                <li>
+                  <CheckCircle size={18} /> Стоимость {tariff.price} сум
+                </li>
               </ul>
 
               <div className={styles.priceBlock}>
-                {tariff.oldPrice && (
-                  <div className={styles.oldPrice}>{tariff.oldPrice}</div>
-                )}
-                <div className={styles.price}>{tariff.price}</div>
+                <div className={styles.price}>{tariff.price} сум</div>
               </div>
 
-              <p className={styles.extra}>{tariff.extra}</p>
-
-              <button className={styles.cta}>Записаться и оплатить</button>
+              <button className={styles.cta}>Оформить подписку</button>
             </motion.div>
           ))}
         </div>

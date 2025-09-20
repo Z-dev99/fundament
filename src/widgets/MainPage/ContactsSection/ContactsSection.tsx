@@ -60,11 +60,11 @@ export const ContactsSection = () => {
                             <span>
                                 <strong>Адрес:</strong>{" "}
                                 <a
-                                    href="https://maps.google.com/?q=Ташкент,+ул.+Амир+Темур,+45"
+                                    href="https://maps.google.com/?q=Ташкент,+ул.+Мукими,+100"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    Ташкент, ул. Амир Темур, 45
+                                    Ул Мукими, 100, Ташкент
                                 </a>
                             </span>
                         </li>
@@ -72,14 +72,14 @@ export const ContactsSection = () => {
                             <Phone className={styles.icon} />
                             <span>
                                 <strong>Телефон:</strong>{" "}
-                                <a href="tel:+998901234567">+998 (90) 123-45-67</a>
+                                <a href="tel:+998887556556">+998 (88) 755-65-56</a>
                             </span>
                         </li>
                         <li>
                             <Mail className={styles.icon} />
                             <span>
                                 <strong>Email:</strong>{" "}
-                                <a href="mailto:info@company.uz">info@company.uz</a>
+                                <a href="mailto:info@fundament.uz">info@fundament.uz</a>
                             </span>
                         </li>
                         <li>
@@ -112,6 +112,7 @@ export const ContactsSection = () => {
                         Написать нам
                     </button>
                 </motion.div>
+
                 <motion.div
                     className={styles.map}
                     initial={{ opacity: 0, y: 30 }}
@@ -124,52 +125,18 @@ export const ContactsSection = () => {
                             position: "relative",
                             overflow: "hidden",
                             width: "100%",
-                            height: "100%", 
+                            height: "100%",
                         }}
                     >
-                        <a
-                            href="https://yandex.uz/maps/10335/tashkent/?utm_medium=mapframe&utm_source=maps"
-                            style={{
-                                color: "#eee",
-                                fontSize: "12px",
-                                position: "absolute",
-                                top: 0,
-                            }}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Ташкент
-                        </a>
-
-                        <a
-                            href="https://yandex.uz/maps/10335/tashkent/house/YkAYdARiT00EQFprfX55d3lhYQ==/?ll=69.233924%2C41.285915&utm_medium=mapframe&utm_source=maps&z=17.2"
-                            style={{
-                                color: "#eee",
-                                fontSize: "12px",
-                                position: "absolute",
-                                top: 14,
-                            }}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Улица Мукими, 100 — Яндекс Карты
-                        </a>
-
                         <iframe
                             src="https://yandex.uz/map-widget/v1/?ll=69.233924%2C41.285915&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgoxNTIyNTA5OTc3Ei5Pyrt6YmVraXN0b24sIFRvc2hrZW50LCBNdXFpbWl5IGtvyrtjaGFzaSwgMTAwIgoNIneKQhVnJSVC&z=17.2"
                             width="100%"
                             height="100%"
-                            style={{
-                                border: 0,
-                                position: "absolute",
-                                top: 0,
-                                left: 0,
-                            }}
+                            style={{ border: 0, position: "absolute", top: 0, left: 0 }}
                             allowFullScreen
                             loading="lazy"
                         />
                     </div>
-
                 </motion.div>
             </div>
 
