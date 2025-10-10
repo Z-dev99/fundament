@@ -63,7 +63,6 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
 
                     <Swiper
                         modules={[Pagination]}
-                        pagination={{ clickable: true }}
                         spaceBetween={8}
                         slidesPerView={1}
                         className={styles.swiper}
@@ -75,7 +74,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
                                         src={img}
                                         alt={`${property.title} фото ${index + 1}`}
                                         width={240}
-                                        height={180}
+                                        height={281}
                                         className={styles.image}
                                     />
                                 </SwiperSlide>
@@ -86,7 +85,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
                                     src="/placeholder.jpg"
                                     alt="Нет фото"
                                     width={240}
-                                    height={180}
+                                    height={281}
                                     className={styles.image}
                                 />
                             </SwiperSlide>
@@ -151,7 +150,6 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
                     </div>
                 </div>
             </div>
-
             {showContacts && (
                 <div
                     className={styles.modalOverlay}
@@ -199,24 +197,6 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
                             >
                                 {displayedPhone}
                             </a>
-                        </div>
-
-                        <div className={styles.modalActions}>
-                            <button
-                                className={styles.btnCall}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleCall(e);
-                                }}
-                            >
-                                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden>
-                                    <path
-                                        d="M6.6 10.8a15 15 0 006.6 6.6l1.8-1.8a1 1 0 01.9-.27c1 .25 2 .38 3 .38a1 1 0 011 1V20a1 1 0 01-1 1c-9.4 0-17-7.6-17-17a1 1 0 011-1h3.5a1 1 0 011 1c0 1 .13 2 .38 3 .09.36-.02.74-.27.99L6.6 10.8z"
-                                        fill="currentColor"
-                                    />
-                                </svg>
-                                <span>Позвонить</span>
-                            </button>
                         </div>
                         <div className={styles.bottomRow}>
                             <button

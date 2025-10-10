@@ -35,7 +35,7 @@ export default function BaseLayout({ children }: Props) {
                         animation: "marquee 12s linear infinite",
                     }}
                 >
-                    🚧 Сайт находится в разработке 🚧
+                    🚧 Сайт работает в тестовом режиме 🚧
                 </div>
             </div>
             <Header />

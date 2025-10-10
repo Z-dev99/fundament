@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronDown, HelpCircle, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./styles.module.scss";
+import { useAddContactMutation } from "@/shared/api/supportApi"; // 👈 путь к твоему contactApi
 
 const faqData = [
     { question: "Как работает поддержка?", answer: "Наша команда поддержки доступна 24/7 через чат и email." },
@@ -16,17 +17,18 @@ export const FAQ = () => {
     const [openIndex, setOpenIndex] = useState<number | null>(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // поля формы
     const [fio, setFio] = useState("");
     const [phone, setPhone] = useState("+998 ");
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+
+    const [addContact, { isLoading }] = useAddContactMutation(); // 👈 RTK Query hook
 
     const toggle = (index: number) => {
         setOpenIndex(openIndex === index ? null : index);
     };
 
-    // формат номера телефона
     const formatPhone = (value: string) => {
         const digits = value.replace(/\D/g, "");
         let result = "+998";
@@ -45,7 +47,7 @@ export const FAQ = () => {
         setError("");
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const uzbPhoneRegex = /^\+998 \(\d{2}\) \d{3} \d{2} \d{2}$/;
@@ -66,12 +68,28 @@ export const FAQ = () => {
         }
 
         setError("");
-        console.log("ФИО:", fio);
-        console.log("Телефон:", phone);
-        console.log("Сообщение:", message);
+        setSuccess("");
 
-        // можно заменить на API-запрос
-        setIsModalOpen(false);
+        try {
+            await addContact({
+                first_name: fio,
+                phone_number: phone,
+                details: message,
+            }).unwrap(); // 👈 unwrap ловит ошибки автоматически
+
+            setSuccess("Сообщение успешно отправлено!");
+            setFio("");
+            setPhone("+998 ");
+            setMessage("");
+
+            // Закрыть модалку через 1.5 сек
+            setTimeout(() => {
+                setIsModalOpen(false);
+                setSuccess("");
+            }, 1500);
+        } catch (err) {
+            setError("Ошибка при отправке. Попробуйте позже.");
+        }
     };
 
     return (
@@ -117,7 +135,6 @@ export const FAQ = () => {
                 </div>
             </div>
 
-            {/* Модалка */}
             <AnimatePresence>
                 {isModalOpen && (
                     <motion.div
@@ -168,8 +185,9 @@ export const FAQ = () => {
                                     />
                                 </label>
                                 {error && <p className={styles.error}>{error}</p>}
-                                <button type="submit" className={styles.submitBtn}>
-                                    Отправить
+                                {success && <p className={styles.success}>{success}</p>}
+                                <button type="submit" className={styles.submitBtn} disabled={isLoading}>
+                                    {isLoading ? "Отправка..." : "Отправить"}
                                 </button>
                             </form>
                         </motion.div>

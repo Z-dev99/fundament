@@ -9,7 +9,7 @@ export interface Subscription {
 
 export const subscriptionApi = createApi({
     reducerPath: "subscriptionApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "http://45.92.173.41:8000/api/v1/" }),
+    baseQuery: fetchBaseQuery({ baseUrl: "http://147.45.68.231:8081/api/v1/" }),
     tagTypes: ["Subscription"],
     endpoints: (builder) => ({
         getSubscriptions: builder.query<Subscription[], { type: "TENANT" | "OWNER" }>({

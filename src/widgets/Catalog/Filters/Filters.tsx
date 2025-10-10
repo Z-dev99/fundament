@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./styles.module.scss";
 import { AnnouncementTypeFilter } from "./AnnouncementTypeFilter";
 import { PriceFilter } from "./PriceFilter";
@@ -27,6 +27,9 @@ const filterVariants = {
 
 export const Filters: React.FC = () => {
     const { filters, updateFilter } = useFilters();
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleFilters = () => setIsOpen((prev) => !prev);
 
     const filterElements = [
         <AnnouncementTypeFilter
@@ -132,99 +135,69 @@ export const Filters: React.FC = () => {
                 updateFilter("max_year_built", range.max);
             }}
         />,
-        <DropdownFilter
-            key="country"
-            label="Страна"
-            value={filters.country || ""}
-            options={["Узбекистан", "Казахстан", "Россия"]}
-            onChange={(val) => updateFilter("country", val)}
-        />,
-        <DropdownFilter
-            key="region"
-            label="Регион"
-            value={filters.region || ""}
-            options={[
-                "Республика Каракалпакстан",
-                "Андижанская область",
-                "Бухарская область",
-                "Джизакская область",
-                "Кашкадарьинская область",
-                "Навоийская область",
-                "Наманганская область",
-                "Самаркандская область",
-                "Сурхандарьинская область",
-                "Сырдарьинская область",
-                "Ферганская область",
-                "Хорезмская область",
-                "Ташкентская область",
-                "Город Ташкент",
-            ]}
-            onChange={(val) => updateFilter("region", val)}
-        />,
-        <DropdownFilter
-            key="city"
-            label="Город"
-            value={filters.city || ""}
-            options={["Ташкент", "Самарканд", "Бухара"]}
-            onChange={(val) => updateFilter("city", val)}
-        />,
-        <DropdownFilter
-            key="district"
-            label="Район"
-            value={filters.district || ""}
-            options={["Мирзо-Улугбекский", "Чиланзарский", "Юнусабадский"]}
-            onChange={(val) => updateFilter("district", val)}
-        />,
-        <DropdownFilter
-            key="street"
-            label="Улица"
-            value={filters.street || ""}
-            options={["Амир Темур", "Навои", "Фароби"]}
-            onChange={(val) => updateFilter("street", val)}
-        />,
-        <DropdownFilter
-            key="wall_material"
-            label="Материал стен"
-            value={filters.wall_material || ""}
-            options={["Кирпич", "Панель", "Монолит", "Дерево", "Блок", "Каркас", "Другое"]}
-            onChange={(val) => updateFilter("wall_material", val)}
-        />,
-        <DropdownFilter
-            key="bathroom_layout"
-            label="Санузел"
-            value={filters.bathroom_layout || ""}
-            options={["Совмещённый", "Раздельный"]}
-            onChange={(val) => updateFilter("bathroom_layout", val)}
-        />,
     ];
 
     return (
         <section className={styles.section}>
-            <div className={styles.container}>
-                <AnimatePresence>
-                    {filterElements.map((el, i) => (
-                        <motion.div key={i} custom={i} initial="hidden" animate="visible" exit="hidden" variants={filterVariants}>
-                            {el}
-                        </motion.div>
-                    ))}
-                </AnimatePresence>
-
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: filterElements.length * 0.05, duration: 0.3 }}
-                    style={{ marginTop: "16px" }}
+            {/* Кнопка для мобилок */}
+            <div className={styles.filterToggleWrapper}>
+                <Button
+                    variant="outline"
+                    size="md"
+                    onClick={toggleFilters}
+                    className={styles.filterToggleBtn}
                 >
-                    <Button
-                        style={{ width: "100%" }}
-                        variant="primary"
-                        size="lg"
-                        onClick={() => console.log("Применены фильтры", filters)}
-                    >
-                        Применить
-                    </Button>
-                </motion.div>
+                    {isOpen ? "Закрыть фильтры" : "Открыть фильтры"}
+                </Button>
             </div>
+
+            {/* Затемнение */}
+            <div
+                className={`${styles.overlay} ${isOpen ? styles.active : ""}`}
+                onClick={toggleFilters}
+            ></div>
+
+            {/* Панель фильтров */}
+            <aside className={`${styles.sidebar} ${isOpen ? styles.open : ""}`}>
+                <div className={styles.container}>
+                    <AnimatePresence>
+                        {filterElements.map((el, i) => (
+                            <motion.div
+                                key={i}
+                                custom={i}
+                                initial="hidden"
+                                animate="visible"
+                                exit="hidden"
+                                variants={filterVariants}
+                            >
+                                {el}
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                            delay: filterElements.length * 0.05,
+                            duration: 0.3,
+                        }}
+                        style={{ marginTop: "16px" }}
+                    >
+                        <Button
+                            style={{ width: "100%" }}
+                            variant="primary"
+                            size="lg"
+                            onClick={() => {
+                                console.log("Применены фильтры", filters);
+                                toggleFilters();
+                            }}
+                        >
+                            Применить
+                        </Button>
+                    </motion.div>
+                </div>
+            </aside>
         </section>
     );
 };

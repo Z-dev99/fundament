@@ -3,7 +3,11 @@
 import BaseLayout from "@/layouts/base-layout";
 import ProtectedRoute from "@/widgets/ProtectedRoute";
 
-export default function ObjectDetailClient({ id }: { id: string }) {
+interface ObjectDetailClientProps {
+    id: string;
+}
+
+export default function ObjectDetailClient({ id }: ObjectDetailClientProps) {
     return (
         <BaseLayout>
             <ProtectedRoute>

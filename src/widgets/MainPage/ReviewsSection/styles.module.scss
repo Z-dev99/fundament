@@ -172,3 +172,42 @@
         opacity: 1;
     }
 }
+
+.emptyReviews {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 1rem;
+    margin-top: 1.5rem;
+    background: linear-gradient(180deg, #ffffff 0%, #faf9ff 100%);
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    color: #374151;
+    animation: fadeIn 0.6s ease forwards;
+
+    .emptyIcon {
+        font-size: 2.4rem;
+        margin-bottom: 0.8rem;
+        background: linear-gradient(135deg, var(--primary-color), #9333ea);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: float 2.4s ease-in-out infinite;
+    }
+
+    h4 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 0.4rem;
+    }
+
+    p {
+        font-size: 0.95rem;
+        color: #6b7280;
+        line-height: 1.5;
+    }
+}

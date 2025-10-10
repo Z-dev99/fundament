@@ -134,7 +134,7 @@ export interface AnnouncementContacts {
 export const announcementApi = createApi({
     reducerPath: "announcementApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://45.92.173.41:8000/api/v1/",
+        baseUrl: "http://147.45.68.231:8081/api/v1/",
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as any).auth?.token;
             if (token) {

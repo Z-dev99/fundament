@@ -21,7 +21,6 @@ export function ReviewsSection() {
         <button className={styles.btn}>Показать все</button>
       </motion.div>
 
-      {/* Loading */}
       {isLoading && (
         <div className={styles.grid}>
           {Array.from({ length: 3 }).map((_, i) => (
@@ -45,7 +44,6 @@ export function ReviewsSection() {
         </div>
       )}
 
-      {/* Error */}
       {isError && (
         <motion.div
           className={styles.errorBox}
@@ -57,12 +55,19 @@ export function ReviewsSection() {
         </motion.div>
       )}
 
-      {/* Empty */}
       {data && data.reviews.length === 0 && (
-        <p className={styles.empty}>Пока нет отзывов</p>
+        <motion.div
+          className={styles.emptyReviews}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className={styles.emptyIcon}>💬</div>
+          <h4>Пока нет отзывов</h4>
+          <p>Будьте первым, кто поделится своим мнением!</p>
+        </motion.div>
       )}
 
-      {/* Success */}
       {data && data.reviews.length > 0 && (
         <div className={styles.grid}>
           {data.reviews.map((r, i) => (

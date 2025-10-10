@@ -11,7 +11,7 @@ export interface AuthResponse {
 
 export const authApi = createApi({
     reducerPath: "authApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "http://45.92.173.41:8000/api/v1/" }),
+    baseQuery: fetchBaseQuery({ baseUrl: "http://147.45.68.231:8081/api/v1/" }),
     tagTypes: ["Auth"],
     endpoints: (builder) => ({
         sendSignupCode: builder.mutation<{ success: boolean }, { phone_number: string }>({

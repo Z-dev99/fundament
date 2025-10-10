@@ -33,12 +33,20 @@ export const TariffsSection = () => {
     return (
       <section className={styles.section}>
         <div className={styles.container}>
-          <p className={styles.empty}>Тарифы пока недоступны</p>
+          <motion.div
+            className={styles.emptyBlock}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className={styles.emptyIcon}>💫</div>
+            <h3>Тарифы пока недоступны</h3>
+            <p>Мы уже работаем над обновлением — скоро появятся новые предложения!</p>
+          </motion.div>
         </div>
       </section>
     );
   }
-
   return (
     <section className={styles.section}>
       <div className={styles.container}>

@@ -9,7 +9,7 @@ export interface Contact {
 
 export const contactApi = createApi({
     reducerPath: "contactApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "http://45.92.173.41:8000/api/v1/" }),
+    baseQuery: fetchBaseQuery({ baseUrl: "http://147.45.68.231:8081/api/v1/" }),
     tagTypes: ["Contact"],
     endpoints: (builder) => ({
         getContacts: builder.query<Contact[], void>({

@@ -1,42 +1,73 @@
 .filterBlock {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    background: white;
+    gap: 0.75rem;
+    background: #fff;
     border-radius: 12px;
     padding: 12px;
-    margin-top: 5px;
+    margin-top: 6px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+
+    @media (max-width: 480px) {
+        gap: 0.6rem;
+        padding: 10px;
+        border-radius: 10px;
+    }
 }
 
 .label {
     font-size: 1rem;
     font-weight: 600;
     margin-bottom: 0.25rem;
+    color: #111827;
+
+    @media (max-width: 480px) {
+        font-size: 0.95rem;
+    }
 }
 
+/* ===== Диапазоны ===== */
 .range {
     display: flex;
     gap: 0.5rem;
 
     @media (max-width: 640px) {
         flex-direction: column;
+        gap: 0.4rem;
     }
 }
 
 .input {
     flex: 1;
     min-width: 0;
-    padding: 0.5rem;
+    padding: 0.6rem 0.75rem;
     border: 1px solid #d1d5db;
     border-radius: 8px;
     font-size: 0.9rem;
     width: 100%;
+    transition: border-color 0.3s;
+
+    &:focus {
+        outline: none;
+        border-color: var(--primary-color);
+    }
+
+    @media (max-width: 480px) {
+        font-size: 0.85rem;
+        padding: 0.55rem 0.7rem;
+    }
 }
 
+/* ===== Опции ===== */
 .options {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+
+    @media (max-width: 480px) {
+        gap: 0.4rem;
+    }
 }
 
 .option {
@@ -45,29 +76,33 @@
     border: 1px solid #d1d5db;
     background: white;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.2s ease;
+    font-size: 0.9rem;
 
     &:hover {
         background: #f3f4f6;
     }
+
+    @media (max-width: 480px) {
+        font-size: 0.85rem;
+        padding: 0.35rem 0.7rem;
+    }
 }
 
 .active {
-    background: #111827;
-    color: white;
-    border-color: #111827;
+    background: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
 }
 
-/* ========================= */
-/* 🎯 Кастомный Dropdown */
-/* ========================= */
+/* ===== Dropdown ===== */
 .dropdown {
     position: relative;
     width: 100%;
 }
 
 .dropdownControl {
-    padding: 0.5rem 1rem;
+    padding: 0.55rem 1rem;
     border: 1px solid #d1d5db;
     border-radius: 0.5rem;
     background: #fff;
@@ -79,6 +114,11 @@
 
     &:hover {
         border-color: #9ca3af;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
     }
 }
 
@@ -99,6 +139,18 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
     z-index: 20;
     overflow: hidden;
+    animation: dropdownFade 0.25s ease forwards;
+}
+
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .dropdownSearch {
@@ -113,6 +165,18 @@
 .dropdownList {
     max-height: 220px;
     overflow-y: auto;
+
+    /* плавный скролл */
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f8fafc;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 6px;
+    }
 }
 
 .dropdownItem {
@@ -149,8 +213,57 @@
 
     .suffix {
         position: absolute;
-        right: 0.5rem;
+        right: 0.6rem;
         color: #6b7280;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .filterBlock {
+        margin-top: 8px;
+        border-radius: 8px;
+        box-shadow: none;
+    }
+
+    .dropdownList {
+        max-height: 180px;
+    }
+}
+
+@media (max-width: 360px) {
+    .label {
         font-size: 0.9rem;
+    }
+    .option {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+    }
+    .input {
+        font-size: 0.8rem;
+    }
+}
+
+
+.filterToggleWrapper {
+    display: none;
+    margin-bottom: 1rem;
+    text-align: center;
+
+    @media (max-width: 992px) {
+        display: block;
+    }
+}
+
+.filterToggleBtn {
+    font-weight: 600;
+    border: 1px solid #ccc;
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background: #f3f4f6;
     }
 }

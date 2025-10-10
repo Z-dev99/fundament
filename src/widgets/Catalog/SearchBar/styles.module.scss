@@ -8,7 +8,7 @@
         content: "";
         position: absolute;
         inset: 0;
-        background: rgba(249, 250, 251, 0.8);
+        background: rgba(249, 250, 251, 0.85);
         z-index: 0;
     }
 }
@@ -21,6 +21,7 @@
     z-index: 1;
 }
 
+/* ===== Заголовок ===== */
 .headerTop {
     display: flex;
     justify-content: space-between;
@@ -28,19 +29,42 @@
     flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 1.5rem;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    @media (max-width: 480px) {
+        align-items: center;
+        text-align: center;
+    }
 }
 
 .title {
-    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    font-size: clamp(1.4rem, 6vw, 2.5rem);
     font-weight: 800;
     margin-bottom: 0.5rem;
+    text-align: left;
+
+    @media (max-width: 480px) {
+        text-align: center;
+        font-size: 1.6rem;
+    }
 }
 
 .subtitle {
     font-size: 1.1rem;
     color: #4b5563;
+
+    @media (max-width: 480px) {
+        font-size: 1rem;
+        text-align: center;
+    }
 }
 
+/* ===== Кнопка карты ===== */
 .mapBtn {
     padding: 10px 20px;
     background: var(--primary-color);
@@ -58,14 +82,23 @@
     @media (max-width: 480px) {
         width: 100%;
         text-align: center;
+        font-size: 1rem;
+        padding: 12px;
     }
 }
 
+/* ===== Поисковая форма ===== */
 .searchForm {
     display: flex;
     gap: 10px;
     justify-content: flex-start;
     flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
 
     .input {
         flex: 1 1 auto;
@@ -75,9 +108,16 @@
         border: 1px solid #e5e7eb;
         font-size: 16px;
         transition: .5s;
+        width: 100%;
 
         &:focus {
             border-color: var(--primary-color);
+            outline: none;
+        }
+
+        @media (max-width: 480px) {
+            font-size: 15px;
+            padding: 10px 12px;
         }
     }
 
@@ -100,6 +140,28 @@
         @media (max-width: 480px) {
             flex: 1 1 100%;
             width: 100%;
+            padding: 12px;
+            font-size: 1rem;
         }
+    }
+}
+
+@media (max-width: 360px) {
+    .title {
+        font-size: 1.4rem;
+    }
+
+    .subtitle {
+        font-size: 0.95rem;
+    }
+
+    .mapBtn,
+    .searchForm .btn {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .searchForm .input {
+        font-size: 14px;
     }
 }

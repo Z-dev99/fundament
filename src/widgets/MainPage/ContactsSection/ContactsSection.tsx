@@ -14,6 +14,7 @@ import {
     X,
 } from "lucide-react";
 import styles from "./styles.module.scss";
+import { useAddContactMutation } from "@/shared/api/supportApi";
 
 export const ContactsSection = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,21 +22,41 @@ export const ContactsSection = () => {
     const [phone, setPhone] = useState("");
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const [addContact, { isLoading }] = useAddContactMutation();
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!fio || !phone || !message) {
+
+        if (!fio.trim() || !phone.trim() || !message.trim()) {
             setError("Все поля обязательные");
             return;
         }
+
         setError("");
-        console.log("ФИО:", fio);
-        console.log("Телефон:", phone);
-        console.log("Сообщение:", message);
-        setIsModalOpen(false);
-        setFio("");
-        setPhone("");
-        setMessage("");
+        setSuccess("");
+
+        try {
+            await addContact({
+                first_name: fio,
+                phone_number: phone,
+                details: message,
+            }).unwrap();
+
+            setSuccess("Ваше сообщение успешно отправлено!");
+            setFio("");
+            setPhone("");
+            setMessage("");
+
+            setTimeout(() => {
+                setIsModalOpen(false);
+                setSuccess("");
+            }, 1500);
+        } catch (err) {
+            console.error("Ошибка при отправке:", err);
+            setError("Ошибка при отправке. Попробуйте позже.");
+        }
     };
 
     return (
@@ -165,6 +186,7 @@ export const ContactsSection = () => {
                                 <X />
                             </button>
                             <h3 className={styles.modalTitle}>Свяжитесь с нами</h3>
+
                             <form className={styles.form} onSubmit={handleSubmit}>
                                 <label>
                                     ФИО
@@ -195,9 +217,12 @@ export const ContactsSection = () => {
                                         required
                                     />
                                 </label>
+
                                 {error && <p className={styles.error}>{error}</p>}
-                                <button type="submit" className={styles.submitBtn}>
-                                    Отправить
+                                {success && <p className={styles.success}>{success}</p>}
+
+                                <button type="submit" className={styles.submitBtn} disabled={isLoading}>
+                                    {isLoading ? "Отправка..." : "Отправить"}
                                 </button>
                             </form>
                         </motion.div>

@@ -3,18 +3,21 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-
 import styles from "./styles.module.scss";
+import { useSendSignupCodeMutation, useSignupMutation } from "@/shared/api/authApi";
 
 export default function RegisterPage() {
     const [step, setStep] = useState<"form" | "code">("form");
     const [fullname, setFullname] = useState("");
     const [phone, setPhone] = useState("+998 ");
-    const [code, setCode] = useState(Array(6).fill(""));
+    const [code, setCode] = useState(Array(4).fill(""));
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
 
     const router = useRouter();
+
+    const [sendSignupCode] = useSendSignupCodeMutation();
+    const [signup] = useSignupMutation();
 
     const formatPhone = (value: string) => {
         const digits = value.replace(/\D/g, "");
@@ -36,24 +39,34 @@ export default function RegisterPage() {
         setSuccess(false);
     };
 
-    const handleFormSubmit = (e: React.FormEvent) => {
+    const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!fullname.trim()) {
             setError("Введите ФИО");
             return;
         }
+
         const uzbPhoneRegex = /^\+998 \(\d{2}\) \d{3} \d{2} \d{2}$/;
         if (!uzbPhoneRegex.test(phone)) {
             setError("Введите номер в формате +998 (90) 123 45 67");
             return;
         }
+
         setError("");
         setSuccess(true);
-        setTimeout(() => {
+
+        try {
+            const phone_number = phone.replace(/\D/g, ""); 
+
+            await sendSignupCode({ phone_number }).unwrap();
+
             setStep("code");
+        } catch (err: any) {
+            console.error("Ошибка при отправке кода:", err);
+            setError(err?.data?.message || err?.error || "Ошибка при отправке кода");
             setSuccess(false);
-        }, 500);
+        }
     };
 
     const handleCodeChange = (index: number, value: string) => {
@@ -71,19 +84,38 @@ export default function RegisterPage() {
         }
     };
 
-    const handleCodeSubmit = (e: React.FormEvent) => {
+    const handleCodeSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const enteredCode = code.join("");
 
-        if (enteredCode.length < 6) {
-            setError("Введите все 6 цифр");
+        if (enteredCode.length < 4) {
+            setError("Введите все 4 цифры");
             return;
         }
 
         setError("");
-        console.log("Регистрация:", { fullname, phone, enteredCode });
 
-        router.replace("/");
+        try {
+            const phone_number = phone.replace(/\D/g, "");
+            const [first_name, ...rest] = fullname.trim().split(" ");
+            const middle_name = rest.length > 1 ? rest[0] : '';
+            const last_name = rest.length > 0 ? rest[rest.length - 1] : '';
+
+            const res = await signup({
+                phone_number,
+                verification_code: enteredCode,
+                first_name,
+                middle_name,
+                last_name,
+                user_type: "OWNER",
+            }).unwrap();
+
+            console.log("Регистрация успешна:", res);
+            router.replace("/");
+        } catch (err: any) {
+            console.error("Ошибка при подтверждении кода:", err);
+            setError(err?.data?.message || err?.error || "Ошибка при подтверждении кода");
+        }
     };
 
     return (
@@ -94,12 +126,7 @@ export default function RegisterPage() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
             >
-                <button
-                    className={styles.closeIcon}
-                    onClick={() => router.replace("/")}
-                >
-                    ✕
-                </button>
+                <button className={styles.closeIcon} onClick={() => router.replace("/")}>✕</button>
 
                 <h1 className={styles.title}>Регистрация</h1>
 
@@ -129,8 +156,7 @@ export default function RegisterPage() {
                                     type="tel"
                                     value={phone}
                                     onChange={handlePhoneChange}
-                                    className={`${styles.input} ${success ? styles.success : ""
-                                        }`}
+                                    className={`${styles.input} ${success ? styles.success : ""}`}
                                     inputMode="numeric"
                                     maxLength={19}
                                 />
@@ -138,15 +164,11 @@ export default function RegisterPage() {
 
                             {error && <p className={styles.error}>{error}</p>}
 
-                            <button type="submit" className={styles.submit}>
-                                Далее
-                            </button>
+                            <button type="submit" className={styles.submit}>Далее</button>
 
                             <p className={styles.switchAuth}>
                                 Уже есть аккаунт?{" "}
-                                <a onClick={() => router.replace("/auth/login")}>
-                                    Войти
-                                </a>
+                                <a onClick={() => router.replace("/auth/login")}>Войти</a>
                             </p>
                         </motion.form>
                     )}
@@ -160,9 +182,7 @@ export default function RegisterPage() {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -40 }}
                         >
-                            <p className={styles.subtitle}>
-                                Введите код из SMS
-                            </p>
+                            <p className={styles.subtitle}>Введите код из SMS</p>
 
                             <div className={styles.codeContainer}>
                                 {code.map((digit, i) => (
@@ -170,9 +190,7 @@ export default function RegisterPage() {
                                         key={i}
                                         type="text"
                                         value={digit}
-                                        onChange={(e) =>
-                                            handleCodeChange(i, e.target.value)
-                                        }
+                                        onChange={(e) => handleCodeChange(i, e.target.value)}
                                         maxLength={1}
                                         data-index={i}
                                         className={styles.codeInput}
@@ -183,17 +201,9 @@ export default function RegisterPage() {
 
                             {error && <p className={styles.error}>{error}</p>}
 
-                            <button type="submit" className={styles.submit}>
-                                Подтвердить
-                            </button>
+                            <button type="submit" className={styles.submit}>Подтвердить</button>
 
-                            <button
-                                type="button"
-                                className={styles.back}
-                                onClick={() => setStep("form")}
-                            >
-                                ← Назад
-                            </button>
+                            <button type="button" className={styles.back} onClick={() => setStep("form")}>← Назад</button>
                         </motion.form>
                     )}
                 </AnimatePresence>

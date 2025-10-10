@@ -1,5 +1,10 @@
 import ObjectDetailClient from "./object-detail-client";
 
-export default function ObjectDetailPage({ params }: { params: { id: string } }) {
-    return <ObjectDetailClient id={params.id} />;
+interface ObjectDetailPageProps {
+    params: Promise<{ id: string }>;
+}
+
+export default async function ObjectDetailPage({ params }: ObjectDetailPageProps) {
+    const { id } = await params;
+    return <ObjectDetailClient id={id} />;
 }

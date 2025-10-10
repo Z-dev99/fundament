@@ -67,7 +67,7 @@ export const mockProperties: Property[] = Array.from({ length: 500 }, (_, i) => 
     };
 });
 
-const ITEMS_PER_PAGE = 7;
+const ITEMS_PER_PAGE = 5;
 
 export const CatalogSection: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
