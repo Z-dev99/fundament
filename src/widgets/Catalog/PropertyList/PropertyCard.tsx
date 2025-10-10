@@ -92,8 +92,6 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
                         )}
                     </Swiper>
                 </div>
-
-
                 <div className={styles.content}>
                     <div className={styles.title}>{property.title}</div>
 
