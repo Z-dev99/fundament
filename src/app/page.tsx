@@ -19,6 +19,7 @@ import { NewsSection } from "@/widgets/MainPage/NewsSection/NewsSection";
 import { ContactsSection } from "@/widgets/MainPage/ContactsSection/ContactsSection";
 import { TariffsSection } from "@/widgets/MainPage/TariffsSection/TariffsSection";
 import { WorkConditions } from "@/widgets/MainPage/WorkConditions/WorkConditions";
+import AdSlider from "@/widgets/AdSlider/AdSlider";
 
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
@@ -56,9 +57,10 @@ export default function HomePage() {
         </div>
         <div className={styles.gridBg} />
       </section>
+      <AdSlider />
       <BenefitsSection />
-      <TariffsSection />
       <ApartmentsSwiper />
+      <TariffsSection />
       <NewsSection />
       <VideoGallery />
       <WorkConditions />
