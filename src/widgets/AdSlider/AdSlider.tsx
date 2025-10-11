@@ -64,8 +64,8 @@ export default function AdSlider() {
                     margin: 3rem auto;
                     border-radius: 20px;
                     overflow: hidden;
-                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
                     position: relative;
+                    padding: 0 1.5rem; 
                 }
 
                 .ad-slide {
@@ -74,6 +74,7 @@ export default function AdSlider() {
                     width: 100%;
                     height: 380px;
                     overflow: hidden;
+                    border-radius: 16px;
                 }
 
                 .ad-slide img {
@@ -134,7 +135,17 @@ export default function AdSlider() {
                 }
 
                 /* --- Адаптив --- */
+                @media (max-width: 1024px) {
+                    .ad-slider {
+                        padding: 0 1rem; /* меньше отступ */
+                    }
+                }
+
                 @media (max-width: 768px) {
+                    .ad-slider {
+                        padding: 0 1rem;
+                    }
+
                     .ad-slide {
                         height: 260px;
                     }
@@ -154,6 +165,10 @@ export default function AdSlider() {
                 }
 
                 @media (max-width: 480px) {
+                    .ad-slider {
+                        padding: 0 0.75rem;
+                    }
+
                     .ad-slide {
                         height: 220px;
                     }
