@@ -29,7 +29,6 @@
   min-height: 282px;
 
   &:hover {
-    transform: translateY(-3px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   }
 
@@ -42,18 +41,19 @@
 .image {
   width: 100%;
   height: 100%;
+  object-position: center;
   object-fit: cover;
   transition: transform 0.4s ease;
 }
 
 .imageWrapper {
-  position: relative;
   flex-shrink: 0;
-  width: 260px;
+  width: 300px;
   aspect-ratio: 4 / 3;
+  position: relative;
   border-right: 1px solid #f0f0f0;
   background: #fafafa;
-  overflow: hidden;
+  display: flex;
 
 
   @media (max-width: 768px) {

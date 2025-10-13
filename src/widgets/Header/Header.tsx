@@ -65,13 +65,13 @@ const Header: FC = () => {
                                     src="/images/logo.svg"
                                     alt="Логотип"
                                     width={160}
-                                    height={36}
+                                    height={80}
+                                    style={{ height: "auto" }}
                                     priority
-                                    style={{ width: "160px", height: "auto" }}
                                 />
+
                             </NavLink>
                         </motion.div>
-
                         <button
                             className={styles.burger}
                             onClick={() => setMenuOpen(!menuOpen)}
@@ -95,7 +95,6 @@ const Header: FC = () => {
                                     </NavLink>
                                 </motion.li>
                             ))}
-
                             <motion.li
                                 className={styles.menuLogin}
                                 variants={itemVariants}

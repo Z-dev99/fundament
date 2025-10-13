@@ -80,7 +80,6 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ type }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
 
-    // фильтрация по типу сделки
     const filteredProperties = useMemo(
         () => mockProperties.filter((p) => p.type === type),
         [type]

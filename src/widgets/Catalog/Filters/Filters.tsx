@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./styles.module.scss";
+
 import { AnnouncementTypeFilter } from "./AnnouncementTypeFilter";
 import { PriceFilter } from "./PriceFilter";
 import { PropertyTypeFilter } from "./PropertyTypeFilter";
@@ -26,17 +27,13 @@ const filterVariants = {
 };
 
 export const Filters: React.FC = () => {
-    const { filters, updateFilter } = useFilters();
+    const { dealType, setDealType, filters, updateFilter } = useFilters();
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleFilters = () => setIsOpen((prev) => !prev);
 
     const filterElements = [
-        <AnnouncementTypeFilter
-            key="announcement_type"
-            value={filters.announcement_type || ""}
-            onChange={(val) => updateFilter("announcement_type", val)}
-        />,
+        <AnnouncementTypeFilter />,
         <PropertyTypeFilter
             key="property_type"
             value={filters.property_type || ""}
@@ -139,7 +136,6 @@ export const Filters: React.FC = () => {
 
     return (
         <section className={styles.section}>
-            {/* Кнопка для мобилок */}
             <div className={styles.filterToggleWrapper}>
                 <Button
                     variant="outline"
@@ -147,17 +143,16 @@ export const Filters: React.FC = () => {
                     onClick={toggleFilters}
                     className={styles.filterToggleBtn}
                 >
-                    {isOpen ? "Закрыть фильтры" : "Открыть фильтры"}
+                    {isOpen ? "Закрыть фильтры" : "Открыть фильтры"} (
+                    {dealType === "SALE" ? "Продажа" : "Аренда"})
                 </Button>
             </div>
 
-            {/* Затемнение */}
             <div
                 className={`${styles.overlay} ${isOpen ? styles.active : ""}`}
                 onClick={toggleFilters}
             ></div>
 
-            {/* Панель фильтров */}
             <aside className={`${styles.sidebar} ${isOpen ? styles.open : ""}`}>
                 <div className={styles.container}>
                     <AnimatePresence>
@@ -189,7 +184,12 @@ export const Filters: React.FC = () => {
                             variant="primary"
                             size="lg"
                             onClick={() => {
-                                console.log("Применены фильтры", filters);
+                                console.log(
+                                    "Применены фильтры",
+                                    filters,
+                                    "Тип сделки:",
+                                    dealType
+                                );
                                 toggleFilters();
                             }}
                         >
