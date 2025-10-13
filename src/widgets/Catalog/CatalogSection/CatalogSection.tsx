@@ -1,11 +1,14 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, useMemo } from "react";
 import { Filters } from "../Filters/Filters";
 import styles from "./styles.module.scss";
 import { Property, PropertyList } from "../PropertyList/PropertyList";
 import { NewsSection } from "@/widgets/MainPage/NewsSection/NewsSection";
 import { ReviewsSection } from "@/widgets/MainPage/ReviewsSection/ReviewsSection";
 import { ContactsSection } from "@/widgets/MainPage/ContactsSection/ContactsSection";
+
+type DealType = "RENT" | "SALE";
 
 const cities = [
     { city: "Ташкент", district: "Мирзо-Улугбекский" },
@@ -69,13 +72,23 @@ export const mockProperties: Property[] = Array.from({ length: 500 }, (_, i) => 
 
 const ITEMS_PER_PAGE = 5;
 
-export const CatalogSection: React.FC = () => {
+interface CatalogSectionProps {
+    type: DealType;
+}
+
+export const CatalogSection: React.FC<CatalogSectionProps> = ({ type }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
 
-    const totalPages = Math.ceil(mockProperties.length / ITEMS_PER_PAGE);
+    // фильтрация по типу сделки
+    const filteredProperties = useMemo(
+        () => mockProperties.filter((p) => p.type === type),
+        [type]
+    );
+
+    const totalPages = Math.ceil(filteredProperties.length / ITEMS_PER_PAGE);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const currentItems = mockProperties.slice(
+    const currentItems = filteredProperties.slice(
         startIndex,
         startIndex + ITEMS_PER_PAGE
     );
@@ -85,10 +98,10 @@ export const CatalogSection: React.FC = () => {
         const timer = setTimeout(() => {
             setLoading(false);
             window.scrollTo({ top: 0, behavior: "smooth" });
-        }, 1500);
+        }, 1000);
 
         return () => clearTimeout(timer);
-    }, [currentPage]);
+    }, [currentPage, type]);
 
     return (
         <>
@@ -106,10 +119,14 @@ export const CatalogSection: React.FC = () => {
                                     ))}
                                 </div>
                             ) : (
-                                <PropertyList properties={currentItems} total={500} />
+                                <PropertyList
+                                    properties={currentItems}
+                                    total={filteredProperties.length}
+                                />
                             )}
                         </div>
-                        {!loading && (
+
+                        {!loading && totalPages > 1 && (
                             <div className={styles.pagination}>
                                 <button
                                     disabled={currentPage === 1}
@@ -133,6 +150,7 @@ export const CatalogSection: React.FC = () => {
                     </div>
                 </div>
             </section>
+
             <NewsSection />
             <ReviewsSection />
             <ContactsSection />

@@ -13,8 +13,8 @@ import Button from "@/widgets/Button/Button";
 import { useAuth } from "@/shared/providers/AuthProvider";
 
 const menuItems = [
-    { href: "/catalog", label: "Продажа" },
-    { href: "/catalog", label: "Аренда" },
+    { href: "/catalog?type=sale", label: "Продажа" },
+    { href: "/catalog?type=rent", label: "Аренда" },
     { href: "/contacts", label: "Контакты" },
 ];
 

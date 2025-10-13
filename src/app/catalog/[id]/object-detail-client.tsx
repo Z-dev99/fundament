@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -14,6 +15,9 @@ interface ObjectDetailClientProps {
 }
 
 export default function ObjectDetailClient({ id }: ObjectDetailClientProps) {
+    const [isLoadingPhone, setIsLoadingPhone] = useState(false);
+    const [showPhone, setShowPhone] = useState(false);
+
     const object: AddAnnouncementBody = {
         title: "4-комнатная квартира в ЖК Достояние",
         description:
@@ -55,11 +59,20 @@ export default function ObjectDetailClient({ id }: ObjectDetailClientProps) {
         subscription_id: "sub_001",
     };
 
+    const handleShowPhone = async () => {
+        if (showPhone || isLoadingPhone) return;
+        setIsLoadingPhone(true);
+
+        await new Promise((resolve) => setTimeout(resolve, 1200));
+
+        setIsLoadingPhone(false);
+        setShowPhone(true);
+    };
+
     return (
         <BaseLayout>
             <ProtectedRoute>
                 <section className={styles.section}>
-
                     <div className={styles.container}>
                         <div className={styles.left}>
                             <Swiper
@@ -80,69 +93,111 @@ export default function ObjectDetailClient({ id }: ObjectDetailClientProps) {
                                 ))}
                             </Swiper>
 
-                            <h1 className={styles.title}>
-                                {object.area_total} м² · {object.rooms_count}-комн.{" "}
-                                {object.property_type}
-                            </h1>
+                            <div className={styles.objectHeader}>
+                                <h1 className={styles.title}>
+                                    {object.area_total} м² · {object.rooms_count}-комн. {object.property_type}
+                                </h1>
 
-                            <h2 className={styles.price}>
-                                {object.price} {object.currency}
-                            </h2>
+                                <h2 className={styles.price}>
+                                    {object.price} {object.currency}
+                                </h2>
+                            </div>
 
-                            <div className={styles.details}>
-                                <div>
-                                    {object.floor} / {object.floors_total}
-                                    <span>Этаж</span>
+                            <div className={styles.detailsGrid}>
+                                <div className={styles.detailItem}>
+                                    <span className={styles.icon}>🏢</span>
+                                    <div>
+                                        <strong>{object.floor} / {object.floors_total}</strong>
+                                        <p>Этаж</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    {object.ceiling_height} м
-                                    <span>Потолки</span>
+
+                                <div className={styles.detailItem}>
+                                    <span className={styles.icon}>📏</span>
+                                    <div>
+                                        <strong>{object.ceiling_height} м</strong>
+                                        <p>Потолки</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    {object.year_built}
-                                    <span>Год постройки</span>
+
+                                <div className={styles.detailItem}>
+                                    <span className={styles.icon}>🏗️</span>
+                                    <div>
+                                        <strong>{object.year_built}</strong>
+                                        <p>Год постройки</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    {object.wall_material}
-                                    <span>Материал стен</span>
+
+                                <div className={styles.detailItem}>
+                                    <span className={styles.icon}>🧱</span>
+                                    <div>
+                                        <strong>{object.wall_material}</strong>
+                                        <p>Материал стен</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    {object.bathroom_layout}
-                                    <span>Санузел</span>
+
+                                <div className={styles.detailItem}>
+                                    <span className={styles.icon}>🚿</span>
+                                    <div>
+                                        <strong>{object.bathroom_layout}</strong>
+                                        <p>Санузел</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div className={styles.description}>
+
+                            <div className={styles.descriptionCard}>
                                 <h3>Описание</h3>
                                 <p>{object.description}</p>
                             </div>
+
                         </div>
 
                         <div className={styles.right}>
                             <div className={styles.ownerCard}>
                                 <div className={styles.ownerInfo}>
-                                    <img
-                                        src="/images/avatar.png"
-                                        alt="Аватар"
-                                        className={styles.avatar}
-                                    />
+                                    <div className={styles.avatar}>А</div>
                                     <div>
                                         <div className={styles.ownerName}>Алексей</div>
                                         <div className={styles.ownerStatus}>Размещено собственником</div>
                                     </div>
                                 </div>
 
-                                <div className={styles.ownerAddress}>
-                                    <p>Казань, Профессорский переулок, 4</p>
-                                </div>
+                                <button
+                                    className={styles.phoneBtn}
+                                    onClick={handleShowPhone}
+                                    disabled={isLoadingPhone}
+                                >
+                                    {isLoadingPhone
+                                        ? "⏳ Загрузка..."
+                                        : showPhone
+                                            ? object.contact_phone
+                                            : "📞 Показать телефон"}
+                                </button>
 
-                                <div className={styles.ownerActions}>
-                                    <button className={styles.phoneBtn}>Показать телефон</button>
-                                    <button className={styles.messageBtn}>Написать</button>
+                                <div className={styles.ownerLocation}>
+                                    <div className={styles.mapPreview}>
+                                        <iframe
+                                            title="Карта"
+                                            width="100%"
+                                            height="100%"
+                                            style={{ border: 0, borderRadius: "12px" }}
+                                            loading="lazy"
+                                            allowFullScreen
+                                            src={`https://www.google.com/maps?q=${object.city},+${object.street},+${object.house_number}&output=embed`}
+                                        ></iframe>
+                                    </div>
+                                    <div className={styles.addressText}>
+                                        <div className={styles.mapIcon}>📍</div>
+                                        <div>
+                                            <div className={styles.city}>{object.city}</div>
+                                            <div className={styles.street}>
+                                                {object.street}, {object.house_number}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                 </section>
             </ProtectedRoute>
