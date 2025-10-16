@@ -14,7 +14,7 @@
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 15px; // 🔹 защищает от прилипания к краям
+    padding: 0 15px;
 }
 
 .heading {
@@ -26,7 +26,7 @@
 }
 
 .swiper {
-    padding: 0 10px 50px; // 🔹 отступы по бокам + под пагинацию
+    padding: 0 10px 50px;
 }
 
 .card {
@@ -103,18 +103,17 @@
 .swiper-button-next {
     color: #2563eb;
     transition: color 0.3s ease;
-    top: 42%; // 🔹 чуть выше центра
+    top: 42%;
 
     &:hover {
         color: #1d4ed8;
     }
 
     @media (max-width: 768px) {
-        display: none; // 🔹 убираем стрелки на мобилках
+        display: none;
     }
 }
 
-/* пагинация */
 .swiper-pagination-bullet {
     background: #d1d5db;
     opacity: 1;
@@ -122,4 +121,42 @@
 
 .swiper-pagination-bullet-active {
     background: #2563eb;
+}
+
+.emptyBlock {
+    width: 100%;
+    padding: 50px;
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    text-align: center;
+    color: #8c8c8c;
+    font-size: 18px;
+    line-height: 1.5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    animation: fadeIn 0.3s ease-in-out;
+
+    p {
+        margin: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+
+        &::before {
+            content: "📭";
+            font-size: 22px;
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
