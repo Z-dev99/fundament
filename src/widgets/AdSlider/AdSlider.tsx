@@ -8,14 +8,6 @@ import "swiper/css/pagination";
 export default function AdSlider() {
     const ads = [
         {
-            id: 1,
-            image:
-                "https://images.unsplash.com/photo-1581092334607-3d4afdcdf1b1?auto=format&fit=crop&w=1200&q=80",
-            title: "Лучшие предложения месяца",
-            description: "Скидки и акции на популярные объекты недвижимости",
-            link: "#",
-        },
-        {
             id: 2,
             image:
                 "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=1200&q=80",

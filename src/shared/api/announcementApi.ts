@@ -1,14 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+
 export interface Announcement {
     id: string;
     title: string;
-    price: string;
+    price: string | number;
     currency: string;
     type: string;
     property_type: string;
     rooms_count: number;
-    area_total: string;
+    area_total: string | number;
     floor: number;
     floors_total: number;
     city: string;

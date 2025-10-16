@@ -4,36 +4,16 @@ import React from "react";
 import styles from "./styles.module.scss";
 import PropertyCard from "./PropertyCard";
 import { motion, AnimatePresence } from "framer-motion";
+import { Announcement } from "@/shared/api/announcementApi";
 
 export type PropertyType = "APARTMENT" | "HOUSE" | "OFFICE" | "OBJECT";
 export type PropertyDealType = "RENT" | "SALE";
 export type Currency = "USD" | "UZS";
 
-export interface Property {
-    id: string;
-    title: string;
-    price: number;
-    currency: Currency;
-    type: PropertyDealType;
-    property_type: PropertyType;
-    rooms_count: number;
-    area_total: number;
-    floor: number;
-    floors_total: number;
-    city: string;
-    district: string;
 
-    street?: string;
-    price_per_m2?: number;
-    published_at?: string;
-    is_new?: boolean;
-    description?: string;
-
-    images: string[];
-}
 
 interface Props {
-    properties: Property[];
+    properties: Announcement[];
     total: number;
 }
 

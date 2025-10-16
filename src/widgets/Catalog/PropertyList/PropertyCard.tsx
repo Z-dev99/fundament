@@ -2,16 +2,16 @@
 
 import React, { useState } from "react";
 import styles from "./styles.module.scss";
-import { Property } from "./PropertyList";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import type { Announcement } from "@/shared/api/announcementApi";
 
 interface PropertyCardProps {
-    property: Property;
+    property: Announcement;
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
@@ -25,20 +25,24 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
         router.push(`/catalog/${property.id}`);
     };
 
-    // Имитация запроса к серверу для получения номера
     const fetchPhone = () => {
         setLoading(true);
         setTimeout(() => {
-            const serverPhone = (property as any).phone ?? "+998 90 123 45 67";
-            setPhone(serverPhone);
+            // Поля phone нет в интерфейсе, поэтому имитируем
+            const mockPhone = "+998 90 123 45 67";
+            setPhone(mockPhone);
             setLoading(false);
-        }, 1000); // имитация 1 секунды задержки
+        }, 1000);
     };
 
     const handleCall = () => {
         if (!phone) return;
         window.location.href = `tel:${phoneHref}`;
     };
+
+    // Безопасное преобразование числовых значений
+    const formattedPrice = Number(property.price).toLocaleString("ru-RU");
+    const formattedArea = Number(property.area_total).toLocaleString("ru-RU");
 
     return (
         <div className={styles.card}>
@@ -58,6 +62,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
                     modules={[Pagination]}
                     spaceBetween={8}
                     slidesPerView={1}
+                    pagination={{ clickable: true }}
                     className={styles.swiper}
                 >
                     {property.images.length > 0 ? (
@@ -91,12 +96,11 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
 
                 <div className={styles.location}>
                     {property.city}, {property.district}
-                    {property.street && `, ${property.street}`}
                 </div>
 
                 <div className={styles.meta}>
                     <span>{property.rooms_count}-комн.</span> ·{" "}
-                    <span>{property.area_total} м²</span> ·{" "}
+                    <span>{formattedArea} м²</span> ·{" "}
                     <span>
                         {property.floor}/{property.floors_total} этаж
                     </span>{" "}
@@ -104,27 +108,11 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
                     <span>{property.type === "SALE" ? "Продается" : "Сдается"}</span>
                 </div>
 
-                {property.price_per_m2 && (
-                    <div className={styles.pricePerM2}>
-                        {property.price_per_m2.toLocaleString()} {property.currency}/м²
-                    </div>
-                )}
-
-                {property.published_at && (
-                    <div className={styles.date}>
-                        Опубликовано:{" "}
-                        {new Date(property.published_at).toLocaleDateString("ru-RU")}
-                    </div>
-                )}
-
-                {property.description && (
-                    <div className={styles.description}>{property.description}</div>
-                )}
-
                 <div className={styles.footer}>
                     <div className={styles.price}>
-                        {property.price.toLocaleString()} {property.currency}
+                        {formattedPrice} {property.currency}
                     </div>
+
                     <div className={styles.cardActions}>
                         <button
                             className={styles.btnPhone}
@@ -138,10 +126,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
                                     : "Показать телефон"}
                         </button>
 
-                        <button
-                            className={styles.btnDetails}
-                            onClick={goToDetails}
-                        >
+                        <button className={styles.btnDetails} onClick={goToDetails}>
                             Посмотреть
                         </button>
                     </div>
