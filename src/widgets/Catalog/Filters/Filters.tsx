@@ -136,18 +136,6 @@ export const Filters: React.FC = () => {
 
     return (
         <section className={styles.section}>
-            <div className={styles.filterToggleWrapper}>
-                <Button
-                    variant="outline"
-                    size="md"
-                    onClick={toggleFilters}
-                    className={styles.filterToggleBtn}
-                >
-                    {isOpen ? "Закрыть фильтры" : "Открыть фильтры"} (
-                    {dealType === "SALE" ? "Продажа" : "Аренда"})
-                </Button>
-            </div>
-
             <div
                 className={`${styles.overlay} ${isOpen ? styles.active : ""}`}
                 onClick={toggleFilters}

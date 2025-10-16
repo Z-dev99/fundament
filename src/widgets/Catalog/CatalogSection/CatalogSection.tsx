@@ -109,14 +109,13 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ type }) => {
         <>
             <section className={styles.section}>
                 <div className={styles.container}>
-                    <button className={styles.filterToggle} onClick={toggleFilters} style={{ marginLeft: 15 }}>
+                    <button className={styles.filterToggle} onClick={toggleFilters} style={{ marginLeft: 8 }}>
                         {isFiltersOpen ? "Закрыть фильтры" : "Открыть фильтры"}
                     </button>
 
                     <aside className={`${styles.sidebar} ${isFiltersOpen ? styles.open : ""}`}>
                         <Filters />
                     </aside>
-
                     <div
                         className={`${styles.overlay} ${isFiltersOpen ? styles.active : ""}`}
                         onClick={toggleFilters}
