@@ -79,6 +79,7 @@ interface CatalogSectionProps {
 export const CatalogSection: React.FC<CatalogSectionProps> = ({ type }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
+    const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
     const filteredProperties = useMemo(
         () => mockProperties.filter((p) => p.type === type),
@@ -92,12 +93,14 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ type }) => {
         startIndex + ITEMS_PER_PAGE
     );
 
+    const toggleFilters = () => setIsFiltersOpen((prev) => !prev);
+
     useEffect(() => {
         setLoading(true);
         const timer = setTimeout(() => {
             setLoading(false);
             window.scrollTo({ top: 0, behavior: "smooth" });
-        }, 1000);
+        }, 500);
 
         return () => clearTimeout(timer);
     }, [currentPage, type]);
@@ -106,9 +109,19 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ type }) => {
         <>
             <section className={styles.section}>
                 <div className={styles.container}>
-                    <aside className={styles.sidebar}>
+                    <button className={styles.filterToggle} onClick={toggleFilters} style={{ marginLeft: 15 }}>
+                        {isFiltersOpen ? "Закрыть фильтры" : "Открыть фильтры"}
+                    </button>
+
+                    <aside className={`${styles.sidebar} ${isFiltersOpen ? styles.open : ""}`}>
                         <Filters />
                     </aside>
+
+                    <div
+                        className={`${styles.overlay} ${isFiltersOpen ? styles.active : ""}`}
+                        onClick={toggleFilters}
+                    ></div>
+
                     <div className={styles.content}>
                         <div className={styles.listPlaceholder}>
                             {loading ? (
@@ -149,7 +162,6 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ type }) => {
                     </div>
                 </div>
             </section>
-
             <NewsSection />
             <ReviewsSection />
             <ContactsSection />
