@@ -7,6 +7,7 @@
     justify-content: center;
     z-index: 100;
     padding: 4rem 1.5rem;
+    animation: fadeIn 0.3s ease forwards;
 }
 
 .modal {
@@ -14,11 +15,35 @@
     padding: 2rem;
     border-radius: 1.25rem;
     width: 400px;
+    max-width: 90%;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
     text-align: center;
     position: relative;
+    animation: slideUp 0.4s ease forwards;
 }
 
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 .closeIcon {
     position: absolute;
@@ -37,7 +62,7 @@
     }
 }
 
-
+/* Заголовки */
 .title {
     font-size: 1.6rem;
     font-weight: 700;
@@ -51,6 +76,7 @@
     margin-bottom: 1rem;
 }
 
+/* Форма */
 .form {
     display: flex;
     flex-direction: column;
@@ -74,6 +100,7 @@
         padding: 0.75rem;
         font-size: 1rem;
         transition: border-color 0.2s, box-shadow 0.2s;
+        width: 100%;
 
         &:focus {
             outline: none;
@@ -88,6 +115,7 @@
     }
 }
 
+/* Ошибка */
 .error {
     font-size: 0.85rem;
     color: var(--error-color);
@@ -95,6 +123,7 @@
     text-align: left;
 }
 
+/* Кнопка отправки */
 .submit {
     background: var(--primary-color);
     color: var(--white-color);
@@ -104,11 +133,12 @@
     cursor: pointer;
     font-weight: 600;
     font-size: 1rem;
-    transition: background 0.25s, transform 0.15s;
+    transition: background 0.25s, transform 0.15s, box-shadow 0.2s;
 
     &:hover:not(:disabled) {
         background: #001a57;
         transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 37, 116, 0.2);
     }
 
     &:disabled {
@@ -117,7 +147,8 @@
     }
 }
 
-.close {
+/* Кнопка "Назад" */
+.back {
     background: transparent;
     color: #666;
     border: none;
@@ -131,11 +162,13 @@
     }
 }
 
+/* Ввод кода */
 .codeContainer {
     display: flex;
     justify-content: center;
     gap: 0.75rem;
     margin-bottom: 0.5rem;
+    flex-wrap: wrap;
 }
 
 .codeInput {
@@ -155,6 +188,66 @@
     }
 }
 
+/* Контейнер кнопок выбора роли */
+.roleContainer {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    @media (max-width: 480px) {
+        gap: 0.75rem;
+    }
+}
+
+.roleBtn {
+    flex: 1 1 45%;
+    background: var(--white-color);
+    border: 1.5px solid #ccc;
+    border-radius: 0.75rem;
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--black-color);
+    cursor: pointer;
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.15s ease,
+        background 0.25s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    &:hover {
+        border-color: var(--primary-color);
+        background: rgba(0, 37, 116, 0.04);
+        box-shadow: 0 0 0 3px rgba(0, 37, 116, 0.1);
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+.roleBtnSelected {
+    border-color: var(--primary-color);
+    background: rgba(0, 37, 116, 0.08);
+    color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 37, 116, 0.15);
+}
+
+.roleHint {
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
 .switchAuth {
     margin-top: 1rem;
     font-size: 0.9rem;
@@ -172,3 +265,33 @@
     }
 }
 
+@media (max-width: 480px) {
+    .modal {
+        width: 100%;
+        padding: 1.5rem;
+    }
+
+    .title {
+        font-size: 1.4rem;
+    }
+
+    .roleContainer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .roleBtn {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+
+    .codeContainer {
+        gap: 0.5rem;
+    }
+
+    .codeInput {
+        width: 42px;
+        height: 50px;
+        font-size: 1.1rem;
+    }
+}

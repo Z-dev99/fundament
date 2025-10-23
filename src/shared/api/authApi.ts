@@ -28,7 +28,7 @@ export const authApi = createApi({
             first_name: string;
             middle_name: string;
             last_name: string;
-            user_type: "OWNER";
+            user_type: "OWNER" | "TENANT";
         }>({
             query: (body) => ({
                 url: "auth/signup",

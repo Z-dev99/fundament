@@ -412,3 +412,143 @@
     }
   }
 }
+
+.loadingSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;
+  background: #fff;
+}
+
+.skeletonWrapper {
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -500px 0;
+  }
+
+  100% {
+    background-position: 500px 0;
+  }
+}
+
+.skeletonBase {
+  background: linear-gradient(90deg,
+      #e3e3e3 25%,
+      #f5f5f5 50%,
+      #e3e3e3 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+  border-radius: 12px;
+}
+
+.skeletonImage {
+  @extend .skeletonBase;
+  width: 100%;
+  height: 320px;
+}
+
+.skeletonTitle {
+  @extend .skeletonBase;
+  width: 60%;
+  height: 24px;
+}
+
+.skeletonSubtitle {
+  @extend .skeletonBase;
+  width: 40%;
+  height: 18px;
+}
+
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.skeletonItem {
+  @extend .skeletonBase;
+  height: 60px;
+}
+
+.skeletonDescription {
+  @extend .skeletonBase;
+  width: 100%;
+  height: 80px;
+}
+
+.errorSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  background: #fff;
+}
+
+.errorCard {
+  text-align: center;
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 40px 30px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.errorIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.errorCard h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #1a1a1a;
+}
+
+.errorCard p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 24px;
+}
+
+.retryButton {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

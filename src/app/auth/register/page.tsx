@@ -4,13 +4,19 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./styles.module.scss";
-import { useSendSignupCodeMutation, useSignupMutation } from "@/shared/api/authApi";
+import {
+    useSendSignupCodeMutation,
+    useSignupMutation,
+} from "@/shared/api/authApi";
+
+type UserRole = "OWNER" | "TENANT";
 
 export default function RegisterPage() {
     const [step, setStep] = useState<"form" | "code">("form");
     const [fullname, setFullname] = useState("");
     const [phone, setPhone] = useState("+998 ");
     const [code, setCode] = useState(Array(4).fill(""));
+    const [role, setRole] = useState<UserRole>("OWNER");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
 
@@ -57,10 +63,8 @@ export default function RegisterPage() {
         setSuccess(true);
 
         try {
-            const phone_number = phone.replace(/\D/g, ""); 
-
+            const phone_number = phone.replace(/\D/g, "");
             await sendSignupCode({ phone_number }).unwrap();
-
             setStep("code");
         } catch (err: any) {
             console.error("Ошибка при отправке кода:", err);
@@ -75,7 +79,7 @@ export default function RegisterPage() {
             newCode[index] = value;
             setCode(newCode);
 
-            if (value && index < 5) {
+            if (value && index < 3) {
                 const nextInput = document.querySelector<HTMLInputElement>(
                     `input[data-index="${index + 1}"]`
                 );
@@ -98,19 +102,18 @@ export default function RegisterPage() {
         try {
             const phone_number = phone.replace(/\D/g, "");
             const [first_name, ...rest] = fullname.trim().split(" ");
-            const middle_name = rest.length > 1 ? rest[0] : '';
-            const last_name = rest.length > 0 ? rest[rest.length - 1] : '';
+            const middle_name = rest.length > 1 ? rest[0] : "";
+            const last_name = rest.length > 0 ? rest[rest.length - 1] : "";
 
-            const res = await signup({
+            await signup({
                 phone_number,
                 verification_code: enteredCode,
                 first_name,
                 middle_name,
                 last_name,
-                user_type: "OWNER",
+                user_type: role,
             }).unwrap();
 
-            console.log("Регистрация успешна:", res);
             router.replace("/");
         } catch (err: any) {
             console.error("Ошибка при подтверждении кода:", err);
@@ -126,7 +129,12 @@ export default function RegisterPage() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
             >
-                <button className={styles.closeIcon} onClick={() => router.replace("/")}>✕</button>
+                <button
+                    className={styles.closeIcon}
+                    onClick={() => router.replace("/")}
+                >
+                    ✕
+                </button>
 
                 <h1 className={styles.title}>Регистрация</h1>
 
@@ -146,7 +154,6 @@ export default function RegisterPage() {
                                     type="text"
                                     value={fullname}
                                     onChange={(e) => setFullname(e.target.value)}
-                                    className={styles.input}
                                 />
                             </div>
 
@@ -156,15 +163,44 @@ export default function RegisterPage() {
                                     type="tel"
                                     value={phone}
                                     onChange={handlePhoneChange}
-                                    className={`${styles.input} ${success ? styles.success : ""}`}
+                                    className={success ? styles.success : ""}
                                     inputMode="numeric"
                                     maxLength={19}
                                 />
                             </div>
 
+                            <div className={styles.field}>
+                                <label>Тип пользователя</label>
+                                <div className={styles.roleContainer}>
+                                    <motion.button
+                                        type="button"
+                                        className={`${styles.roleBtn} ${
+                                            role === "OWNER" ? styles.roleBtnSelected : ""
+                                        }`}
+                                        onClick={() => setRole("OWNER")}
+                                        whileTap={{ scale: 0.97 }}
+                                    >
+                                        🏠 Арендодатель
+                                    </motion.button>
+
+                                    <motion.button
+                                        type="button"
+                                        className={`${styles.roleBtn} ${
+                                            role === "TENANT" ? styles.roleBtnSelected : ""
+                                        }`}
+                                        onClick={() => setRole("TENANT")}
+                                        whileTap={{ scale: 0.97 }}
+                                    >
+                                        👤 Арендатор
+                                    </motion.button>
+                                </div>
+                            </div>
+
                             {error && <p className={styles.error}>{error}</p>}
 
-                            <button type="submit" className={styles.submit}>Далее</button>
+                            <button type="submit" className={styles.submit}>
+                                Далее
+                            </button>
 
                             <p className={styles.switchAuth}>
                                 Уже есть аккаунт?{" "}
@@ -190,7 +226,9 @@ export default function RegisterPage() {
                                         key={i}
                                         type="text"
                                         value={digit}
-                                        onChange={(e) => handleCodeChange(i, e.target.value)}
+                                        onChange={(e) =>
+                                            handleCodeChange(i, e.target.value)
+                                        }
                                         maxLength={1}
                                         data-index={i}
                                         className={styles.codeInput}
@@ -201,9 +239,17 @@ export default function RegisterPage() {
 
                             {error && <p className={styles.error}>{error}</p>}
 
-                            <button type="submit" className={styles.submit}>Подтвердить</button>
+                            <button type="submit" className={styles.submit}>
+                                Подтвердить
+                            </button>
 
-                            <button type="button" className={styles.back} onClick={() => setStep("form")}>← Назад</button>
+                            <button
+                                type="button"
+                                className={styles.close}
+                                onClick={() => setStep("form")}
+                            >
+                                ← Назад
+                            </button>
                         </motion.form>
                     )}
                 </AnimatePresence>

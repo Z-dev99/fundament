@@ -13,32 +13,8 @@ import styles from "./styles.module.scss";
 const videos = [
     {
         id: 1,
-        url: "https://www.w3schools.com/html/mov_bbb.mp4",
-        title: "Обзор сервиса",
-        poster: "/images/poster.png",
-    },
-    {
-        id: 2,
-        url: "https://www.w3schools.com/html/movie.mp4",
-        title: "Отзывы пользователей",
-        poster: "/images/poster.png",
-    },
-    {
-        id: 3,
-        url: "https://www.w3schools.com/html/mov_bbb.mp4",
-        title: "Как это работает",
-        poster: "/images/poster.png",
-    },
-    {
-        id: 4,
-        url: "https://www.w3schools.com/html/movie.mp4",
-        title: "Отзывы пользователей",
-        poster: "/images/poster.png",
-    },
-    {
-        id: 5,
-        url: "https://www.w3schools.com/html/mov_bbb.mp4",
-        title: "Как это работает",
+        url: "./video/video.mp4",
+        title: "Кто мы?",
         poster: "/images/poster.png",
     },
 ];

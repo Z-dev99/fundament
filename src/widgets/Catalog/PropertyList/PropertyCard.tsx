@@ -28,7 +28,6 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
     const fetchPhone = () => {
         setLoading(true);
         setTimeout(() => {
-            // Поля phone нет в интерфейсе, поэтому имитируем
             const mockPhone = "+998 90 123 45 67";
             setPhone(mockPhone);
             setLoading(false);
@@ -40,7 +39,6 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
         window.location.href = `tel:${phoneHref}`;
     };
 
-    // Безопасное преобразование числовых значений
     const formattedPrice = Number(property.price).toLocaleString("ru-RU");
     const formattedArea = Number(property.area_total).toLocaleString("ru-RU");
 
@@ -69,7 +67,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
                         property.images.map((img, index) => (
                             <SwiperSlide key={index}>
                                 <Image
-                                    src={img}
+                                    src={`http://147.45.68.231:9000/img/${img}`}
                                     alt={`${property.title} фото ${index + 1}`}
                                     width={240}
                                     height={281}

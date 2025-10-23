@@ -3,69 +3,44 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { Lock } from "lucide-react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
+import { useGetAnnouncementsQuery } from "@/shared/api/announcementApi";
 import styles from "./styles.module.scss";
 
-const apartments = [
-    {
-        id: 1,
-        image: "/apartments/ap1.jpg",
-        title: "109 м² · 2-комнатная квартира",
-        subtitle: "6 этаж из 6",
-        address: "Ильинский, Пролетарская улица, 49/1А",
-        description:
-            "В продаже квартира площадью 40.00 в новом жилом комплексе. Дом расположен в престижной части города.",
-        price: "120 000 $",
-        pricePerM2: "1 200 $ за м²",
-        date: "8 августа 2025",
-        isNew: true,
-        isLocked: true,
-    },
-    {
-        id: 2,
-        image: "/apartments/ap1.jpg",
-        title: "109 м² · 2-комнатная квартира",
-        subtitle: "6 этаж из 6",
-        address: "Ильинский, Пролетарская улица, 49/1А",
-        description:
-            "В продаже квартира площадью 40.00 в новом жилом комплексе. Дом расположен в престижной части города.",
-        price: "120 000 $",
-        pricePerM2: "1 200 $ за м²",
-        date: "8 августа 2025",
-        isNew: true,
-        isLocked: true,
-    },
-    {
-        id: 3,
-        image: "/apartments/ap1.jpg",
-        title: "109 м² · 2-комнатная квартира",
-        subtitle: "6 этаж из 6",
-        address: "Ильинский, Пролетарская улица, 49/1А",
-        description:
-            "В продаже квартира площадью 40.00 в новом жилом комплексе. Дом расположен в престижной части города.",
-        price: "120 000 $",
-        pricePerM2: "1 200 $ за м²",
-        date: "8 августа 2025",
-        isNew: true,
-        isLocked: true,
-    },
-    {
-        id: 4,
-        image: "/apartments/ap1.jpg",
-        title: "109 м² · 2-комнатная квартира",
-        subtitle: "6 этаж из 6",
-        address: "Ильинский, Пролетарская улица, 49/1А",
-        description:
-            "В продаже квартира площадью 40.00 в новом жилом комплексе. Дом расположен в престижной части города.",
-        price: "120 000 $",
-        pricePerM2: "1 200 $ за м²",
-        date: "8 августа 2025",
-        isNew: true,
-        isLocked: true,
-    },
-
-];
 export const ApartmentsSwiper = () => {
+    const { data, isLoading, isError } = useGetAnnouncementsQuery({ announcement_type: 'SALE', page: 1, page_size: 10 });
+
+    if (isLoading) {
+        return (
+            <section className={styles.wrapper}>
+                <h2 className={styles.heading}>Лучшие предложения</h2>
+                <div className={styles.skeletonGrid}>
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <div key={i} className={styles.skeletonCard}>
+                            <div className={styles.skeletonImage}></div>
+                            <div className={styles.skeletonText}></div>
+                            <div className={styles.skeletonTextShort}></div>
+                        </div>
+                    ))}
+                </div>
+            </section>
+        );
+    }
+
+    if (isError || !data?.topTen?.length) {
+        return (
+            <section className={styles.wrapper}>
+                <h2 className={styles.heading}>Лучшие предложения</h2>
+                <div className={styles.errorBox}>
+                    <p>Не удалось загрузить объявления 😔</p>
+                </div>
+            </section>
+        );
+    }
+
     return (
         <section className={styles.wrapper}>
             <h2 className={styles.heading}>Лучшие предложения</h2>
@@ -80,45 +55,50 @@ export const ApartmentsSwiper = () => {
                     1200: { slidesPerView: 3 },
                 }}
             >
-                {apartments.map((apartment) => (
-                    <SwiperSlide key={apartment.id}>
-                        <div className={`${styles.card} ${apartment.isLocked ? styles.blurred : ""}`}>
+                {data.topTen.map((apartment) => (
+                    <SwiperSlide key={apartment.id} onClick={() => { }}>
+                        <div className={`${styles.card} ${styles.blurred}`}>
                             <div className={styles.imageWrapper}>
                                 <img
-                                    src={apartment.image}
+                                    src={
+                                        apartment.images?.[0]
+                                            ? 'http://147.45.68.231:9000/img/' + apartment.images[0]
+                                            : "/apartments/ap1.jpg"
+                                    }
                                     alt={apartment.title}
                                     className={styles.image}
                                 />
-                                {apartment.isNew && <span className={styles.badge}>new</span>}
+                                {apartment.type === "RENT" && (
+                                    <span className={styles.badge}>Аренда</span>
+                                )}
+                                {apartment.type === "SALE" && (
+                                    <span className={`${styles.badge} ${styles.sale}`}>
+                                        Продажа
+                                    </span>
+                                )}
                             </div>
 
                             <div className={styles.content}>
                                 <h3 className={styles.title}>{apartment.title}</h3>
-                                <p className={styles.subtitle}>{apartment.subtitle}</p>
-                                <p className={styles.address}>{apartment.address}</p>
-                                <p className={styles.description}>{apartment.description}</p>
+                                <p className={styles.subtitle}>
+                                    {apartment.rooms_count}-комнатная · {apartment.area_total} м²
+                                </p>
+                                <p className={styles.address}>
+                                    {apartment.city}, {apartment.district}
+                                </p>
 
                                 <div className={styles.priceBlock}>
-                                    <span className={styles.price}>{apartment.price}</span>
-                                    <span className={styles.pricePerM2}>
-                                        {apartment.pricePerM2}
+                                    <span className={styles.price}>
+                                        {apartment.price} {apartment.currency}
                                     </span>
                                 </div>
 
                                 <div className={styles.actions}>
                                     <button className={styles.btnPrimary}>Показать телефон</button>
-                                    <button className={styles.btnSecondary}>Написать</button>
+                                    <button className={styles.btnSecondary}>Подробнее</button>
                                 </div>
-
-                                <p className={styles.date}>{apartment.date}</p>
                             </div>
 
-                            {apartment.isLocked && (
-                                <div className={styles.lockOverlay}>
-                                    <Lock size={32} />
-                                    <p>Только для авторизованных пользователей</p>
-                                </div>
-                            )}
                         </div>
                     </SwiperSlide>
                 ))}

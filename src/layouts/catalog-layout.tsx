@@ -2,7 +2,6 @@
 
 import { ReactNode } from 'react';
 import BaseLayout from './base-layout';
-import ProtectedRoute from '@/widgets/ProtectedRoute';
 
 interface Props {
   children: ReactNode;
@@ -10,8 +9,6 @@ interface Props {
 
 export default function CatalogLayout({ children }: Props) {
   return (
-    <ProtectedRoute>
-      <BaseLayout>{children}</BaseLayout>
-    </ProtectedRoute>
+    <BaseLayout>{children}</BaseLayout>
   );
 }

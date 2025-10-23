@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-
 export interface Announcement {
     id: string;
     title: string;
@@ -21,6 +20,7 @@ export interface AnnouncementsResponse {
     total: number;
     size: number;
     announcements: Announcement[];
+    topTen?: Announcement[];
 }
 
 export interface AnnouncementsFilters {
@@ -91,40 +91,23 @@ export interface AddAnnouncementBody {
     subscription_id: string;
 }
 
-export interface UpdateAnnouncementBody {
-    title?: string;
-    description?: string;
-    type?: "RENT" | "SALE";
-    property_type?: string;
-    rooms_count?: number;
-    floor?: number;
-    floors_total?: number;
-    area_total?: string;
-    area_living?: string;
-    area_kitchen?: string;
-    ceiling_height?: number;
-    year_built?: number;
-    wall_material?: string;
-    bathroom_layout?: string;
-    price?: string;
-    currency?: string;
-    country?: string;
-    region?: string;
-    city?: string;
-    district?: string;
-    street?: string;
-    house_number?: string;
-    block?: string;
-    apartment?: string;
-    postal_code?: string;
-    latitude?: string;
-    longitude?: string;
-    cadastral_number?: string;
-    available_from?: string;
-    contact_phone?: string;
-    contact_email?: string;
-    subscription_id?: string;
-    images?: string[];
+export interface UpdateAnnouncementBody extends Partial<AddAnnouncementBody> { }
+
+export interface AnnouncementDetail extends Announcement {
+    description: string;
+    area_living: string;
+    area_kitchen: string;
+    ceiling_height: number;
+    year_built: number;
+    wall_material: "BRICK" | "PANEL" | "MONOLITH" | string;
+    bathroom_layout: "COMBINED" | "SEPARATE" | string;
+    house_number: string;
+    block: string;
+    apartment: string;
+    postal_code: string;
+    latitude: string;
+    longitude: string;
+    available_from: string;
 }
 
 export interface AnnouncementContacts {
@@ -132,18 +115,52 @@ export interface AnnouncementContacts {
     email: string;
 }
 
-export const announcementApi = createApi({
-    reducerPath: "announcementApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: "http://147.45.68.231:8081/api/v1/",
-        prepareHeaders: (headers, { getState }) => {
-            const token = (getState() as any).auth?.token;
-            if (token) {
-                headers.set("Authorization", `Bearer ${token}`);
-            }
+// ✅ Улучшенный логгер для API-запросов
+const baseQueryWithLogging = async (args: any, api: any, extraOptions: any) => {
+    const baseUrl = "http://147.45.68.231:8081/api/v1/";
+    const token = (api.getState() as any)?.auth?.token;
+    const headers: Record<string, string> = {};
+
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+
+    const url = typeof args === "string" ? args : args.url;
+    const method = typeof args === "string" ? "GET" : args.method || "GET";
+    const body = typeof args === "string" ? undefined : args.body;
+
+    const start = performance.now();
+
+    console.groupCollapsed(
+        `%c📡 API Request → ${method} ${baseUrl}${url}`,
+        "color:#00BFFF;font-weight:bold;"
+    );
+    console.log("Headers:", headers);
+    if (body) console.log("Body:", body);
+    console.groupEnd();
+
+    const rawBaseQuery = fetchBaseQuery({
+        baseUrl,
+        prepareHeaders: (headers) => {
+            if (token) headers.set("Authorization", `Bearer ${token}`);
             return headers;
         },
-    }),
+    });
+
+    const result = await rawBaseQuery(args, api, extraOptions);
+    const duration = (performance.now() - start).toFixed(1);
+
+    console.groupCollapsed(
+        `%c📨 API Response ← ${method} ${baseUrl}${url} (${duration} ms)`,
+        "color:#32CD32;font-weight:bold;"
+    );
+
+    console.groupEnd();
+
+    return result;
+};
+
+export const announcementApi = createApi({
+    reducerPath: "announcementApi",
+    baseQuery: baseQueryWithLogging,
     tagTypes: ["Announcement"],
     endpoints: (builder) => ({
         getAnnouncements: builder.query<AnnouncementsResponse, AnnouncementsFilters>({
@@ -156,26 +173,34 @@ export const announcementApi = createApi({
                 });
                 return `announcements?${params.toString()}`;
             },
+            transformResponse: (response: AnnouncementsResponse) => ({
+                ...response,
+                topTen: response.announcements.slice(0, 10),
+            }),
             providesTags: ["Announcement"],
         }),
 
+        // 🔹 Мои объявления
         getMyAnnouncements: builder.query<AnnouncementsResponse, { page?: number; page_size?: number }>({
             query: ({ page = 1, page_size = 12 } = {}) =>
                 `announcements/me?page=${page}&page_size=${page_size}`,
             providesTags: ["Announcement"],
         }),
 
+        // 🔹 Избранные объявления
         getFavoriteAnnouncements: builder.query<AnnouncementsResponse, { page?: number; page_size?: number }>({
             query: ({ page = 1, page_size = 12 } = {}) =>
                 `announcements/favorites?page=${page}&page_size=${page_size}`,
             providesTags: ["Announcement"],
         }),
 
-        getAnnouncementById: builder.query<Announcement, string>({
+        // 🔹 Получение одного объявления
+        getAnnouncementById: builder.query<AnnouncementDetail, string>({
             query: (id) => `announcements/${id}`,
             providesTags: ["Announcement"],
         }),
 
+        // 🔹 Добавление
         addAnnouncement: builder.mutation<Announcement, AddAnnouncementBody>({
             query: (body) => ({
                 url: "announcements",
@@ -185,6 +210,7 @@ export const announcementApi = createApi({
             invalidatesTags: ["Announcement"],
         }),
 
+        // 🔹 Обновление
         updateAnnouncement: builder.mutation<Announcement, { id: string; data: UpdateAnnouncementBody }>({
             query: ({ id, data }) => ({
                 url: `announcements/${id}`,
@@ -194,6 +220,7 @@ export const announcementApi = createApi({
             invalidatesTags: ["Announcement"],
         }),
 
+        // 🔹 Удаление
         deleteAnnouncement: builder.mutation<{ success: boolean; id: string }, string>({
             query: (id) => ({
                 url: `announcements/${id}`,
